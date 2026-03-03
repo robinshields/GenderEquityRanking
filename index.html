@@ -1,1 +1,572 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Australian University Gender Pay Gap Rankings</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700;900&family=DM+Mono:wght@300;400;500&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg:           #f5f4f0;
+    --surface:      #ffffff;
+    --surface2:     #eceae4;
+    --border:       #d8d4cc;
+    --border-strong:#b8b2a8;
+    --text:         #1a1a18;
+    --muted:        #6b6760;
+    --accent:       #1a5fa8;
+    --green:        #1a7a3c;
+    --red:          #b82020;
+    --amber:        #8a6000;
+    --gold:         #a07800;
+  }
+
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+
+  body {
+    background: var(--bg);
+    color: var(--text);
+    font-family: 'DM Sans', sans-serif;
+    font-weight: 300;
+    min-height: 100vh;
+    padding-bottom: 4rem;
+  }
+
+  /* ── Header ── */
+  header {
+    background: var(--surface);
+    border-bottom: 2px solid var(--border);
+    padding: 2.5rem 0 0;
+  }
+  .header-inner {
+    max-width: 1100px;
+    margin: 0 auto;
+    padding: 0 2rem 2rem;
+  }
+  .eyebrow {
+    font-family: 'DM Mono', monospace;
+    font-size: .7rem;
+    letter-spacing: .2em;
+    text-transform: uppercase;
+    color: var(--accent);
+    margin-bottom: .75rem;
+  }
+  h1 {
+    font-family: 'Playfair Display', serif;
+    font-size: clamp(1.8rem, 5vw, 3rem);
+    font-weight: 900;
+    line-height: 1.1;
+    color: var(--text);
+    margin-bottom: .75rem;
+  }
+  h1 em { font-style: italic; color: var(--accent); }
+  .subtitle {
+    color: var(--muted);
+    font-size: .9rem;
+    max-width: 640px;
+    line-height: 1.6;
+    margin-bottom: 1.25rem;
+  }
+  .source-tag {
+    display: inline-block;
+    font-family: 'DM Mono', monospace;
+    font-size: .68rem;
+    background: var(--surface2);
+    border: 1px solid var(--border);
+    border-radius: 4px;
+    padding: .2rem .5rem;
+    color: var(--muted);
+  }
+
+  /* ── Controls ── */
+  .controls {
+    max-width: 1100px;
+    margin: 1.75rem auto 1rem;
+    padding: 0 2rem;
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    flex-wrap: wrap;
+  }
+  .control-label {
+    font-family: 'DM Mono', monospace;
+    font-size: .7rem;
+    letter-spacing: .12em;
+    text-transform: uppercase;
+    color: var(--muted);
+  }
+  .metric-select, .sort-select {
+    background: var(--surface);
+    border: 1.5px solid var(--border);
+    border-radius: 6px;
+    color: var(--text);
+    font-family: 'DM Sans', sans-serif;
+    font-size: .85rem;
+    padding: .45rem 2rem .45rem .75rem;
+    cursor: pointer;
+    outline: none;
+    appearance: none;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='10' height='6' fill='none'%3E%3Cpath d='M1 1l4 4 4-4' stroke='%236b6760' stroke-width='1.5' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E");
+    background-repeat: no-repeat;
+    background-position: right .65rem center;
+    transition: border-color .15s;
+  }
+  .metric-select:focus, .sort-select:focus { border-color: var(--accent); }
+  .divider { width: 1px; height: 1.5rem; background: var(--border); margin: 0 .15rem; }
+  .info-note { margin-left: auto; font-size: .78rem; color: var(--muted); font-style: italic; }
+
+  /* ── Stats bar ── */
+  .stats-bar {
+    max-width: 1100px;
+    margin: 0 auto 1.5rem;
+    padding: 0 2rem;
+    display: flex;
+    gap: 1.25rem;
+    flex-wrap: wrap;
+  }
+  .stat-card {
+    background: var(--surface);
+    border: 1.5px solid var(--border);
+    border-radius: 8px;
+    padding: .85rem 1.25rem;
+    flex: 1;
+    min-width: 155px;
+  }
+  .stat-label {
+    font-family: 'DM Mono', monospace;
+    font-size: .62rem;
+    letter-spacing: .1em;
+    text-transform: uppercase;
+    color: var(--muted);
+    margin-bottom: .35rem;
+  }
+  .stat-value {
+    font-family: 'Playfair Display', serif;
+    font-size: 1.6rem;
+    font-weight: 700;
+    color: var(--text);
+    line-height: 1;
+  }
+  .stat-value .unit { font-size: .95rem; font-weight: 400; }
+  .stat-sub { font-size: .72rem; color: var(--muted); margin-top: .3rem; line-height: 1.5; }
+  .chg-good { color: var(--green); font-weight: 500; }
+  .chg-bad  { color: var(--red);   font-weight: 500; }
+
+  /* ── Table ── */
+  .table-wrapper {
+    max-width: 1100px;
+    margin: 0 auto;
+    padding: 0 2rem;
+    overflow-x: auto;
+  }
+  table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: .875rem;
+    background: var(--surface);
+    border: 1.5px solid var(--border);
+    border-radius: 8px;
+    overflow: hidden;
+  }
+  thead tr { background: var(--surface2); border-bottom: 2px solid var(--border-strong); }
+  thead th {
+    font-family: 'DM Mono', monospace;
+    font-size: .65rem;
+    letter-spacing: .1em;
+    text-transform: uppercase;
+    color: var(--muted);
+    font-weight: 500;
+    padding: .8rem 1rem;
+    text-align: left;
+    white-space: nowrap;
+    cursor: pointer;
+    user-select: none;
+    transition: color .15s;
+  }
+  thead th:hover { color: var(--text); }
+  thead th.sorted { color: var(--accent); }
+  thead th .sort-icon { opacity: .4; margin-left: .3em; font-size: .8em; }
+  thead th.sorted .sort-icon { opacity: 1; }
+
+  tbody tr { border-bottom: 1px solid var(--border); transition: background .1s; }
+  tbody tr:last-child { border-bottom: none; }
+  tbody tr:hover { background: #f0efe9; }
+  td { padding: .8rem 1rem; vertical-align: middle; }
+
+  .td-rank { font-family:'DM Mono',monospace; font-size:.8rem; color:var(--muted); width:3rem; text-align:right; padding-right:1.25rem; }
+  .td-rank.top3 { font-weight:600; color:var(--gold); }
+  .td-name { font-weight:400; font-size:.88rem; }
+  .td-gap  { font-family:'DM Mono',monospace; font-size:.88rem; font-weight:500; text-align:right; }
+  .td-gap .unit { font-size:.72rem; font-weight:300; color:var(--muted); }
+  .td-prev-rank, .td-prev-gap { font-family:'DM Mono',monospace; font-size:.8rem; color:var(--muted); text-align:right; }
+  .td-change { text-align:right; font-family:'DM Mono',monospace; font-size:.82rem; white-space:nowrap; }
+  .change-up   { color: var(--green); }
+  .change-down { color: var(--red); }
+  .change-same { color: var(--muted); }
+
+  .gap-low  { color: var(--green); }
+  .gap-mid  { color: var(--amber); }
+  .gap-high { color: var(--red); }
+
+  /* ── Legend ── */
+  .legend {
+    max-width: 1100px;
+    margin: 1.25rem auto 0;
+    padding: 0 2rem;
+    display: flex;
+    gap: 1.5rem;
+    flex-wrap: wrap;
+    align-items: center;
+  }
+  .legend-item { display:flex; align-items:center; gap:.4rem; font-size:.78rem; color:var(--muted); }
+  .dot { width:8px; height:8px; border-radius:50%; flex-shrink:0; }
+
+  /* ── Footnote ── */
+  .footnote-text {
+    max-width: 1100px;
+    margin: 1.5rem auto 0;
+    padding: 1.25rem 2rem 0;
+    font-size: .75rem;
+    color: var(--muted);
+    line-height: 1.7;
+    border-top: 1px solid var(--border);
+  }
+
+  /* ── Footer ── */
+  footer {
+    max-width: 1100px;
+    margin: 2rem auto 0;
+    padding: 0 2rem;
+  }
+  .footer-inner {
+    background: var(--surface);
+    border: 1.5px solid var(--border);
+    border-radius: 8px;
+    padding: 1.25rem 1.5rem;
+    display: flex;
+    gap: 2rem;
+    flex-wrap: wrap;
+    align-items: flex-start;
+  }
+  .footer-stat { display:flex; flex-direction:column; gap:.2rem; }
+  .footer-stat-label {
+    font-family: 'DM Mono', monospace;
+    font-size: .62rem;
+    letter-spacing: .1em;
+    text-transform: uppercase;
+    color: var(--muted);
+  }
+  .footer-stat-value {
+    font-family: 'Playfair Display', serif;
+    font-size: 1.3rem;
+    font-weight: 700;
+    color: var(--text);
+  }
+  .footer-note {
+    margin-left: auto;
+    font-size: .74rem;
+    color: var(--muted);
+    font-style: italic;
+    max-width: 360px;
+    text-align: right;
+    line-height: 1.55;
+    align-self: center;
+  }
+
+  @media (max-width: 700px) {
+    .info-note { display: none; }
+    td, th { padding: .6rem .6rem; }
+    .footer-note { margin-left: 0; text-align: left; max-width: 100%; }
+  }
+</style>
+</head>
+<body>
+
+<header>
+  <div class="header-inner">
+    <h1>Australian <br><em>Gender Pay Gap</em> Rankings</h1>
+    <p class="subtitle">
+      Data from mandatory employer reporting to the Workplace Gender Equality Agency (WGEA).
+    </p>
+  </div>
+</header>
+
+<div class="controls">
+  <span class="control-label">Metric</span>
+  <select class="metric-select" id="metric-select" onchange="setMetric(this.value)">
+    <option value="avg">Average total remuneration gap</option>
+    <option value="med" selected>Median total remuneration gap</option>
+    <option value="q41">Q4–Q1 women's representation difference</option>
+  </select>
+
+  <div class="divider"></div>
+
+  <span class="control-label">Sort by</span>
+  <select class="sort-select" id="sort-select" onchange="setSort(this.value)">
+    <option value="rank-asc">Best rank first</option>
+    <option value="rank-desc">Worst rank first</option>
+    <option value="name-asc">University name (A–Z)</option>
+    <option value="change-best">Most improved</option>
+    <option value="change-worst">Most declined</option>
+  </select>
+
+  <span class="info-note">Higher rank = better pay equity</span>
+</div>
+
+<div class="stats-bar" id="stats-bar"></div>
+
+<div class="table-wrapper">
+  <table>
+    <thead>
+      <tr>
+        <th onclick="setSort('rank-asc')">Rank</th>
+        <th onclick="setSort('name-asc')">University</th>
+        <th class="sorted" id="th-gap">2024–25 <span id="th-gap-label">Avg Gap</span> <span class="sort-icon">▲</span></th>
+        <th>2023–24 Rank</th>
+        <th>2023–24 <span id="th-prev-label">Avg Gap</span></th>
+        <th onclick="setSort('change-best')">Rank Change <span class="sort-icon">↕</span></th>
+      </tr>
+    </thead>
+    <tbody id="table-body"></tbody>
+  </table>
+</div>
+
+<div class="legend" id="legend-bar"></div>
+<div class="footnote-text" id="footnote-text"></div>
+
+<footer>
+  <div class="footer-inner" id="footer-inner"></div>
+</footer>
+
+<script>
+// ─────────────────────────────────────────────
+// Embedded data
+// ─────────────────────────────────────────────
+const RAW = [
+  {name:"University of New South Wales",          avg23:7.5,  med23:2.5,  q1_23:47,q4_23:57,pctW23:53,staff23:15589, avg24:6.9,  med24:2.4,  q1_24:47,q4_24:58,pctW24:53,staff24:17232},
+  {name:"University of Tasmania",                 avg23:6.2,  med23:0.9,  q1_23:53,q4_23:63,pctW23:59,staff23:6402,  avg24:6.2,  med24:3.9,  q1_24:53,q4_24:64,pctW24:60,staff24:5689},
+  {name:"Edith Cowan University",                 avg23:7.7,  med23:5.3,  q1_23:61,q4_23:71,pctW23:68,staff23:3845,  avg24:5.4,  med24:4.1,  q1_24:62,q4_24:71,pctW24:68,staff24:4467},
+  {name:"The University of Queensland",           avg23:10.3, med23:3.5,  q1_23:50,q4_23:67,pctW23:58,staff23:13446, avg24:9.5,  med24:1.8,  q1_24:50,q4_24:67,pctW24:59,staff24:13571},
+  {name:"The University of Sydney",               avg23:7.4,  med23:1.8,  q1_23:52,q4_23:60,pctW23:58,staff23:17663, avg24:7.3,  med24:1.7,  q1_24:53,q4_24:60,pctW24:58,staff24:18198},
+  {name:"The University of Newcastle",            avg23:8.3,  med23:3.2,  q1_23:58,q4_23:64,pctW23:64,staff23:6332,  avg24:7.9,  med24:4.8,  q1_24:59,q4_24:51,pctW24:64,staff24:6301},
+  {name:"University of Canberra",                 avg23:6.9,  med23:4.3,  q1_23:57,q4_23:70,pctW23:63,staff23:2396,  avg24:6.5,  med24:3.1,  q1_24:60,q4_24:68,pctW24:66,staff24:3123},
+  {name:"University of Wollongong",               avg23:8.0,  med23:7.2,  q1_23:55,q4_23:61,pctW23:62,staff23:5531,  avg24:6.6,  med24:5.6,  q1_24:56,q4_24:64,pctW24:62,staff24:5056},
+  {name:"Queensland University of Technology",    avg23:6.5,  med23:6.0,  q1_23:53,q4_23:61,pctW23:59,staff23:7429,  avg24:6.1,  med24:4.8,  q1_24:51,q4_24:61,pctW24:59,staff24:7002},
+  {name:"Griffith University",                    avg23:10.3, med23:6.1,  q1_23:53,q4_23:69,pctW23:63,staff23:7063,  avg24:10.1, med24:6.8,  q1_24:52,q4_24:70,pctW24:63,staff24:6994},
+  {name:"Monash University",                      avg23:9.9,  med23:4.0,  q1_23:49,q4_23:62,pctW23:58,staff23:14895, avg24:9.5,  med24:3.9,  q1_24:50,q4_24:63,pctW24:58,staff24:14387},
+  {name:"Charles Darwin University",              avg23:9.9,  med23:3.3,  q1_23:55,q4_23:69,pctW23:61,staff23:1634,  avg24:7.7,  med24:3.2,  q1_24:53,q4_24:66,pctW24:60,staff24:1968},
+  {name:"RMIT University",                        avg23:6.7,  med23:4.4,  q1_23:50,q4_23:62,pctW23:56,staff23:8967,  avg24:6.1,  med24:3.7,  q1_24:49,q4_24:61,pctW24:55,staff24:9588},
+  {name:"The University of Melbourne",            avg23:10.3, med23:4.0,  q1_23:50,q4_23:66,pctW23:60,staff23:14968, avg24:9.6,  med24:5.5,  q1_24:50,q4_24:66,pctW24:60,staff24:14921},
+  {name:"Swinburne University of Technology",     avg23:11.5, med23:9.4,  q1_23:40,q4_23:65,pctW23:54,staff23:2894,  avg24:11.9, med24:8.1,  q1_24:40,q4_24:66,pctW24:55,staff24:2846},
+  {name:"La Trobe University",                    avg23:8.2,  med23:7.3,  q1_23:57,q4_23:70,pctW23:66,staff23:5759,  avg24:8.4,  med24:8.4,  q1_24:59,q4_24:72,pctW24:67,staff24:5763},
+  {name:"Australian National University",         avg23:10.0, med23:7.7,  q1_23:44,q4_23:62,pctW23:54,staff23:6556,  avg24:9.4,  med24:8.8,  q1_24:44,q4_24:61,pctW24:54,staff24:5862},
+  {name:"Victoria University",                    avg23:8.6,  med23:6.9,  q1_23:53,q4_23:71,pctW23:62,staff23:2642,  avg24:8.3,  med24:9.1,  q1_24:52,q4_24:69,pctW24:62,staff24:3199},
+  {name:"Western Sydney University",              avg23:8.3,  med23:5.5,  q1_23:54,q4_23:68,pctW23:63,staff23:6258,  avg24:8.3,  med24:5.8,  q1_24:54,q4_24:70,pctW24:63,staff24:6226},
+  {name:"The University of Western Australia",    avg23:10.4, med23:6.1,  q1_23:47,q4_23:66,pctW23:57,staff23:6597,  avg24:8.9,  med24:5.8,  q1_24:50,q4_24:65,pctW24:57,staff24:7157},
+  {name:"Curtin University",                      avg23:9.0,  med23:4.6,  q1_23:49,q4_23:63,pctW23:60,staff23:7450,  avg24:9.7,  med24:6.9,  q1_24:48,q4_24:67,pctW24:61,staff24:7450},
+  {name:"Macquarie University",                   avg23:10.9, med23:8.8,  q1_23:49,q4_23:67,pctW23:59,staff23:6571,  avg24:11.8, med24:8.8,  q1_24:49,q4_24:67,pctW24:59,staff24:6456},
+  {name:"University of South Australia",          avg23:10.6, med23:9.4,  q1_23:51,q4_23:74,pctW23:63,staff23:4384,  avg24:9.6,  med24:6.2,  q1_24:53,q4_24:74,pctW24:63,staff24:4531},
+  {name:"Deakin University",                      avg23:8.0,  med23:8.0,  q1_23:54,q4_23:67,pctW23:62,staff23:7797,  avg24:9.0,  med24:6.5,  q1_24:52,q4_24:65,pctW24:62,staff24:8596},
+  {name:"Federation University Australia",        avg23:13.5, med23:11.5, q1_23:52,q4_23:76,pctW23:64,staff23:1959,  avg24:13.8, med24:8.3,  q1_24:51,q4_24:75,pctW24:65,staff24:1938},
+  {name:"Murdoch University",                     avg23:12.8, med23:10.3, q1_23:52,q4_23:72,pctW23:64,staff23:2902,  avg24:12.3, med24:8.7,  q1_24:54,q4_24:73,pctW24:65,staff24:3139},
+  {name:"Flinders University",                    avg23:11.8, med23:9.7,  q1_23:56,q4_23:75,pctW23:68,staff23:3469,  avg24:11.6, med24:8.5,  q1_24:55,q4_24:73,pctW24:67,staff24:3474},
+  {name:"Southern Cross University",              avg23:9.9,  med23:9.3,  q1_23:61,q4_23:72,pctW23:67,staff23:1911,  avg24:11.0, med24:8.3,  q1_24:56,q4_24:73,pctW24:69,staff24:2090},
+  {name:"University of New England",              avg23:11.2, med23:10.4, q1_23:50,q4_23:70,pctW23:62,staff23:2305,  avg24:11.0, med24:11.7, q1_24:49,q4_24:70,pctW24:62,staff24:1989},
+  {name:"The University of Notre Dame Australia", avg23:17.8, med23:18.9, q1_23:52,q4_23:81,pctW23:68,staff23:1652,  avg24:13.4, med24:18.0, q1_24:59,q4_24:77,pctW24:67,staff24:1650},
+  {name:"University of Technology Sydney",        avg23:8.8,  med23:3.5,  q1_23:48,q4_23:61,pctW23:56,staff23:5727,  avg24:7.0,  med24:4.4,  q1_24:50,q4_24:62,pctW24:56,staff24:7838},
+  {name:"The University of Adelaide",             avg23:16.7, med23:14.3, q1_23:40,q4_23:73,pctW23:56,staff23:4544,  avg24:17.0, med24:14.3, q1_24:41,q4_24:73,pctW24:57,staff24:4739},
+  {name:"Charles Sturt University",               avg23:10.1, med23:9.5,  q1_23:54,q4_23:75,pctW23:66,staff23:3857,  avg24:10.4, med24:10.1, q1_24:55,q4_24:75,pctW24:67,staff24:4035},
+  {name:"University of Southern Queensland",      avg23:11.7, med23:8.4,  q1_23:48,q4_23:65,pctW23:60,staff23:3569,  avg24:11.0, med24:9.0,  q1_24:50,q4_24:63,pctW24:61,staff24:3015},
+  {name:"Bond University",                        avg23:18.3, med23:11.9, q1_23:48,q4_23:77,pctW23:65,staff23:1399,  avg24:18.0, med24:9.1,  q1_24:48,q4_24:76,pctW24:63,staff24:1483},
+  {name:"James Cook University",                  avg23:12.0, med23:11.2, q1_23:54,q4_23:73,pctW23:66,staff23:2700,  avg24:13.0, med24:11.5, q1_24:54,q4_24:75,pctW24:66,staff24:2609},
+  {name:"University of the Sunshine Coast",       avg23:10.9, med23:10.0, q1_23:57,q4_23:74,pctW23:67,staff23:2385,  avg24:10.3, med24:7.1,  q1_24:57,q4_24:74,pctW24:67,staff24:2856},
+  {name:"Australian Catholic University",         avg23:11.5, med23:6.9,  q1_23:61,q4_23:74,pctW23:70,staff23:3722,  avg24:12.6, med24:7.2,  q1_24:60,q4_24:76,pctW24:70,staff24:3691},
+  {name:"Central Queensland University",          avg23:11.4, med23:13.5, q1_23:51,q4_23:76,pctW23:65,staff23:3275,  avg24:11.3, med24:13.3, q1_24:51,q4_24:76,pctW24:65,staff24:3460},
+];
+
+// ─────────────────────────────────────────────
+// State
+// ─────────────────────────────────────────────
+let metric  = 'med';
+let sortKey = 'rank-asc';
+
+// ─────────────────────────────────────────────
+// Helpers
+// ─────────────────────────────────────────────
+function getGap24(d) {
+  if (metric === 'avg') return d.avg24;
+  if (metric === 'med') return d.med24;
+  return d.q4_24 - d.q1_24;
+}
+function getGap23(d) {
+  if (metric === 'avg') return d.avg23;
+  if (metric === 'med') return d.med23;
+  return d.q4_23 - d.q1_23;
+}
+
+function rankData(data, gapFn) {
+  return [...data].sort((a,b) => gapFn(a) - gapFn(b)).map((d,i) => ({...d, rank: i+1}));
+}
+
+function simpleAvg(data, gapFn) {
+  return data.reduce((s,d) => s + gapFn(d), 0) / data.length;
+}
+function weightedAvg(data, gapFn, staffKey) {
+  const tot = data.reduce((s,d) => s + d[staffKey], 0);
+  return data.reduce((s,d) => s + gapFn(d) * d[staffKey], 0) / tot;
+}
+
+function gapClass(v) {
+  if (metric === 'q41') { return v <= 10 ? 'gap-low' : v <= 20 ? 'gap-mid' : 'gap-high'; }
+  return v <= 7 ? 'gap-low' : v <= 12 ? 'gap-mid' : 'gap-high';
+}
+
+const fmt = v => v.toFixed(1);
+
+// ─────────────────────────────────────────────
+// Render
+// ─────────────────────────────────────────────
+function render() {
+  const isQ41 = metric === 'q41';
+  const unit  = '%';
+  const shortLabel = metric === 'avg' ? 'Avg Gap' : metric === 'med' ? 'Median Gap' : 'Q4–Q1 Diff';
+
+  // Rankings
+  const ranked24 = rankData(RAW, getGap24);
+  const ranked23 = rankData(RAW, getGap23);
+  const rank23Map = {};
+  ranked23.forEach(d => rank23Map[d.name] = d.rank);
+
+  let rows = ranked24.map(d => {
+    const prevRank = rank23Map[d.name] ?? null;
+    const change   = prevRank !== null ? prevRank - d.rank : null;
+    return {...d, prevRank, change};
+  });
+
+  if (sortKey === 'rank-asc')     rows.sort((a,b) => a.rank - b.rank);
+  if (sortKey === 'rank-desc')    rows.sort((a,b) => b.rank - a.rank);
+  if (sortKey === 'name-asc')     rows.sort((a,b) => a.name.localeCompare(b.name));
+  if (sortKey === 'change-best')  rows.sort((a,b) => (b.change ?? -999) - (a.change ?? -999));
+  if (sortKey === 'change-worst') rows.sort((a,b) => (a.change ?? 999)  - (b.change ?? 999));
+
+  // ── Stats ──
+  const uw24 = simpleAvg(RAW, getGap24);
+  const uw23 = simpleAvg(RAW, getGap23);
+  const wt24 = weightedAvg(RAW, getGap24, 'staff24');
+  const wt23 = weightedAvg(RAW, getGap23, 'staff23');
+  const improved = rows.filter(r => r.change > 0).length;
+
+  function deltaHTML(delta) {
+    if (Math.abs(delta) < 0.005) return `<span style="color:var(--muted)">no change</span>`;
+    const better = delta < 0; // lower gap = better
+    const sign   = better ? '▼' : '▲';
+    const cls    = better ? 'chg-good' : 'chg-bad';
+    return `<span class="${cls}">${sign} ${Math.abs(delta).toFixed(2)}${unit}</span>`;
+  }
+
+  document.getElementById('stats-bar').innerHTML = `
+    <div class="stat-card">
+      <div class="stat-label">Sector Average (2024–25)</div>
+      <div class="stat-value">${fmt(uw24)}<span class="unit">${unit}</span></div>
+      <div class="stat-sub">vs ${fmt(uw23)}${unit} in 2023–24 &nbsp;·&nbsp; ${deltaHTML(uw24 - uw23)}</div>
+    </div>
+    <div class="stat-card">
+      <div class="stat-label">Weighted Sector Average (2024–25)</div>
+      <div class="stat-value">${fmt(wt24)}<span class="unit">${unit}</span></div>
+      <div class="stat-sub">vs ${fmt(wt23)}${unit} in 2023–24 &nbsp;·&nbsp; ${deltaHTML(wt24 - wt23)}<br><span style="font-style:italic">Weighted by number of staff</span></div>
+    </div>
+    <div class="stat-card">
+      <div class="stat-label">Universities Improved</div>
+      <div class="stat-value" style="color:var(--green)">${improved}<span class="unit"> / 39</span></div>
+      <div class="stat-sub">reduced their gap vs 2023–24</div>
+    </div>
+  `;
+
+  // ── Column headers ──
+  document.getElementById('th-gap-label').textContent  = shortLabel;
+  document.getElementById('th-prev-label').textContent = shortLabel;
+
+  // ── Table rows ──
+  document.getElementById('table-body').innerHTML = rows.map(row => {
+    const gap24 = getGap24(row);
+    const gap23 = getGap23(row);
+    let changeTxt = '—', changeCls = 'change-same';
+    if (row.change !== null && row.change !== 0) {
+      changeTxt = row.change > 0 ? `▲&nbsp;${row.change}` : `▼&nbsp;${Math.abs(row.change)}`;
+      changeCls = row.change > 0 ? 'change-up' : 'change-down';
+    }
+    return `<tr>
+      <td class="td-rank ${row.rank<=3?'top3':''}">${row.rank}</td>
+      <td class="td-name">${row.name}</td>
+      <td class="td-gap"><span class="${gapClass(gap24)}">${fmt(gap24)}</span><span class="unit">${unit}</span></td>
+      <td class="td-prev-rank">${row.prevRank ?? '—'}</td>
+      <td class="td-prev-gap">${fmt(gap23)}${unit}</td>
+      <td class="td-change ${changeCls}">${changeTxt}</td>
+    </tr>`;
+  }).join('');
+
+  // ── Legend ──
+  document.getElementById('legend-bar').innerHTML = isQ41 ? `
+    <div class="legend-item"><span class="dot" style="background:var(--green)"></span>Diff ≤ 10pp</div>
+    <div class="legend-item"><span class="dot" style="background:var(--amber)"></span>10–20pp</div>
+    <div class="legend-item"><span class="dot" style="background:var(--red)"></span>&gt; 20pp</div>
+    <div class="legend-item" style="margin-left:1rem"><span style="color:var(--green)">▲</span>&nbsp;Rank improved</div>
+    <div class="legend-item"><span style="color:var(--red)">▼</span>&nbsp;Rank declined</div>` : `
+    <div class="legend-item"><span class="dot" style="background:var(--green)"></span>Gap ≤ 7%</div>
+    <div class="legend-item"><span class="dot" style="background:var(--amber)"></span>7–12%</div>
+    <div class="legend-item"><span class="dot" style="background:var(--red)"></span>&gt; 12%</div>
+    <div class="legend-item" style="margin-left:1rem"><span style="color:var(--green)">▲</span>&nbsp;Rank improved</div>
+    <div class="legend-item"><span style="color:var(--red)">▼</span>&nbsp;Rank declined</div>`;
+
+  // ── Footnote ──
+  document.getElementById('footnote-text').innerHTML = isQ41
+    ? `<strong>Q4–Q1 women's representation difference</strong> is the percentage of women in the top pay quartile (Q4) minus the percentage of women in the bottom pay quartile (Q1). A higher value means women are more concentrated in lower-paid roles — a sign of occupational segregation by pay level. A lower (or negative) figure indicates greater equity across the pay distribution. Universities are ranked from lowest to highest.`
+    : `<strong>How to read this table:</strong> The gender pay gap is the difference between ${metric==='avg'?'average':'median'} total remuneration of men and women, expressed as a percentage of men's remuneration. A positive gap means women earn less on average. Universities are ranked from lowest gap (most equitable) to highest. The <em>Rank Change</em> column shows movement between 2023–24 and 2024–25 — ▲ means a university improved its ranking. <strong>Note on median gaps:</strong> A median gap of 0% does not necessarily mean pay parity; it can reflect that the median salary band is shared while other bands diverge.`;
+
+  // header sort highlight
+  document.querySelectorAll('thead th').forEach(th => th.classList.remove('sorted'));
+  if (['rank-asc','rank-desc'].includes(sortKey)) document.getElementById('th-gap').classList.add('sorted');
+}
+
+// ─────────────────────────────────────────────
+// Footer — static, uses 2024-25 data
+// ─────────────────────────────────────────────
+(function buildFooter() {
+  const totalStaff24 = RAW.reduce((s,d) => s + d.staff24, 0);
+  const totalStaff23 = RAW.reduce((s,d) => s + d.staff23, 0);
+  const weightedPctW = RAW.reduce((s,d) => s + d.pctW24 * d.staff24, 0) / totalStaff24;
+
+  document.getElementById('footer-inner').innerHTML = `
+    <div class="footer-stat">
+      <span class="footer-stat-label">Total staff covered (2024–25)</span>
+      <span class="footer-stat-value">${totalStaff24.toLocaleString()}</span>
+    </div>
+    <div class="footer-stat">
+      <span class="footer-stat-label">Total staff covered (2023–24)</span>
+      <span class="footer-stat-value">${totalStaff23.toLocaleString()}</span>
+    </div>
+    <div class="footer-stat">
+      <span class="footer-stat-label">Women as % of workforce (2024–25, staff-weighted)</span>
+      <span class="footer-stat-value">${weightedPctW.toFixed(1)}%</span>
+    </div>
+    <div class="footer-stat">
+      <span class="footer-stat-label">Universities reporting</span>
+      <span class="footer-stat-value">39</span>
+    </div>
+    <p class="footer-note">Data from the WGEA Employer Census. The gender pay gap measures the difference in remuneration between men and women as a percentage of men's pay. Positive values indicate women earn less on average.</p>
+  `;
+})();
+
+// ─────────────────────────────────────────────
+// Event handlers
+// ─────────────────────────────────────────────
+function setMetric(m) { metric = m; render(); }
+function setSort(s) { sortKey = s; document.getElementById('sort-select').value = s; render(); }
+
+render();
+</script>
+</body>
+</html>
 
