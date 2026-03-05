@@ -855,7 +855,7 @@ function render() {
     const pipHtml = `<span class="pips">${row.acts.map((_,i)=>`<span class="pip${i<n?' on':''}"></span>`).join('')}</span>`;
 
     const srcCell = row.src
-      ? `<a class="source-link" href="https://public.tableau.com/shared/${row.src}" target="_blank" rel="noopener" title="View source data">${EXT_ICON}</a>`
+      ? `<a class="source-link" href="https://public.tableau.com/shared/${row.src}?%3Adisplay_static_image=y&%3AbootstrapWhenNotified=true&%3Aembed=true&%3Alanguage=en-GB&:embed=y&:showVizHome=n&:apiID=host0#navType=0&navSrc=Parse" target="_blank" rel="noopener" title="View source data">${EXT_ICON}</a>`
       : '';
 
     const nameStar = row.star ? `<sup>*</sup>` : '';
@@ -893,7 +893,7 @@ function render() {
   document.getElementById('legend-bar').innerHTML += `
     <div class="legend-item" style="margin-left:.5rem"><span style="color:var(--green)">▲</span>&nbsp;Rank improved</div>
     <div class="legend-item"><span style="color:var(--red)">▼</span>&nbsp;Rank declined</div>
-    <div class="legend-item"><span class="badge badge-yes" style="width:16px;height:16px;font-size:.65rem">✓</span>&nbsp;GPG audit</div>`;
+    <div class="legend-item"><span class="badge badge-yes" style="width:16px;height:16px;font-size:.65rem">✓</span>&nbsp;GPG Analysis</div>`;
 
   // Footnote
   document.getElementById('footnote-text').innerHTML = (isQ41
@@ -1060,7 +1060,8 @@ function openModal(name) {
     <!-- Source -->
     ${d.src ? `<div>
       <div class="modal-section-label">Primary Source</div>
-      <a class="modal-source-link" href="https://public.tableau.com/shared/${d.src}" target="_blank" rel="noopener">
+      
+      <a class="modal-source-link" href="https://public.tableau.com/shared/${d.src}?%3Adisplay_static_image=y&%3AbootstrapWhenNotified=true&%3Aembed=true&%3Alanguage=en-GB&:embed=y&:showVizHome=n&:apiID=host0#navType=0&navSrc=Parse" target="_blank" rel="noopener">
         ${EXT_ICON} View on WGEA Tableau
       </a>
     </div>` : ''}
