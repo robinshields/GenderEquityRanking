@@ -3,343 +3,617 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Australian University Gender Pay Equality Rankings</title>
+<title>Gender Pay Equity Rankings – Australian Universities</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700;900&family=DM+Mono:wght@300;400;500&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
 <style>
-  :root {
-    --bg:           #f5f4f0;
-    --surface:      #ffffff;
-    --surface2:     #eceae4;
-    --border:       #d8d4cc;
-    --border-strong:#b8b2a8;
-    --text:         #1a1a18;
-    --muted:        #6b6760;
-    --accent:       #1a5fa8;
-    --green:        #1a7a3c;
-    --red:          #b82020;
-    --amber:        #8a6000;
-    --gold:         #a07800;
-  }
+/* ═══════════════════════════════════════════
+   DESIGN TOKENS
+═══════════════════════════════════════════ */
+:root {
+  --bg:           #f5f4f0;
+  --surface:      #ffffff;
+  --surface2:     #eceae4;
+  --border:       #d8d4cc;
+  --border-strong:#b8b2a8;
+  --text:         #1a1a18;
+  --muted:        #6b6760;
+  --accent:       #1a5fa8;
+  --green:        #1a7a3c;
+  --green-bg:     #e8f5ed;
+  --red:          #b82020;
+  --amber:        #8a6000;
+  --gold:         #a07800;
+  --purple:       #6b3fa0;
+  --purple-bg:    #f0eaf8;
+  --teal:         #0e7490;
+  --teal-bg:      #e0f4f8;
 
-  * { box-sizing: border-box; margin: 0; padding: 0; }
+  --radius-sm: 4px;
+  --radius:    8px;
+  --radius-lg: 12px;
+}
 
-  body {
-    background: var(--bg);
-    color: var(--text);
-    font-family: 'DM Sans', sans-serif;
-    font-weight: 300;
-    min-height: 100vh;
-    padding-bottom: 4rem;
-  }
+/* ═══════════════════════════════════════════
+   RESET & BASE (mobile-first)
+═══════════════════════════════════════════ */
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 
-  /* ── Header ── */
-  header {
-    background: var(--surface);
-    border-bottom: 2px solid var(--border);
-    padding: 2.5rem 0 0;
-  }
-  .header-inner {
-    max-width: 1200px;
-    margin: 0 auto;
-    padding: 0 2rem 2rem;
-  }
-  .eyebrow {
-    font-family: 'DM Mono', monospace;
-    font-size: .7rem;
-    letter-spacing: .2em;
-    text-transform: uppercase;
-    color: var(--accent);
-    margin-bottom: .75rem;
-  }
-  h1 {
-    font-family: 'Playfair Display', serif;
-    font-size: clamp(1.8rem, 5vw, 3rem);
-    font-weight: 900;
-    line-height: 1.1;
-    color: var(--text);
-    margin-bottom: .75rem;
-  }
-  h1 em { font-style: italic; color: var(--accent); }
-  .subtitle {
-    color: var(--muted);
-    font-size: .9rem;
+html { font-size: 16px; -webkit-text-size-adjust: 100%; }
+
+body {
+  background: var(--bg);
+  color: var(--text);
+  font-family: 'DM Sans', sans-serif;
+  font-weight: 300;
+  line-height: 1.5;
+  min-height: 100vh;
+  padding-bottom: 3rem;
+}
+
+/* ═══════════════════════════════════════════
+   HEADER
+═══════════════════════════════════════════ */
+header {
+  background: var(--surface);
+  border-bottom: 2px solid var(--border);
+  padding: 1.5rem 0 0;
+}
+.header-inner {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 1rem 1.5rem;
+}
+@media (min-width: 640px) {
+  header { padding-top: 2.5rem; }
+  .header-inner { padding: 0 2rem 2rem; }
+}
+
+.eyebrow {
+  font-family: 'DM Mono', monospace;
+  font-size: .68rem;
+  letter-spacing: .18em;
+  text-transform: uppercase;
+  color: var(--accent);
+  margin-bottom: .6rem;
+}
+h1 {
+  font-family: 'Playfair Display', serif;
+  font-size: clamp(1.6rem, 6vw, 3rem);
+  font-weight: 900;
+  line-height: 1.1;
+  color: var(--text);
+  margin-bottom: .6rem;
+}
+h1 em { font-style: italic; color: var(--accent); }
+
+.subtitle {
+  color: var(--muted);
+  font-size: .875rem;
+  max-width: 640px;
+  line-height: 1.6;
+  margin-bottom: 1rem;
+}
+.source-tag {
+  display: inline-block;
+  font-family: 'DM Mono', monospace;
+  font-size: .65rem;
+  background: var(--surface2);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-sm);
+  padding: .2rem .5rem;
+  color: var(--muted);
+}
+
+/* ═══════════════════════════════════════════
+   CONTROLS
+═══════════════════════════════════════════ */
+.controls {
+  max-width: 1200px;
+  margin: 1.25rem auto .75rem;
+  padding: 0 1rem;
+  display: flex;
+  align-items: center;
+  gap: .75rem;
+  flex-wrap: wrap;
+}
+@media (min-width: 640px) {
+  .controls { margin: 1.75rem auto 1rem; padding: 0 2rem; gap: 1rem; }
+}
+
+.control-label {
+  font-family: 'DM Mono', monospace;
+  font-size: .68rem;
+  letter-spacing: .12em;
+  text-transform: uppercase;
+  color: var(--muted);
+  white-space: nowrap;
+}
+
+.metric-select, .sort-select {
+  background: var(--surface);
+  border: 1.5px solid var(--border);
+  border-radius: var(--radius-sm);
+  color: var(--text);
+  font-family: 'DM Sans', sans-serif;
+  font-size: .85rem;
+  padding: .45rem 2rem .45rem .75rem;
+  cursor: pointer;
+  outline: none;
+  appearance: none;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='10' height='6' fill='none'%3E%3Cpath d='M1 1l4 4 4-4' stroke='%236b6760' stroke-width='1.5' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E");
+  background-repeat: no-repeat;
+  background-position: right .65rem center;
+  transition: border-color .15s;
+  max-width: 100%;
+}
+.metric-select:focus, .sort-select:focus { border-color: var(--accent); }
+
+.divider { width: 1px; height: 1.5rem; background: var(--border); flex-shrink: 0; }
+.info-note { display: none; }
+@media (min-width: 900px) {
+  .info-note { display: block; margin-left: auto; font-size: .78rem; color: var(--muted); font-style: italic; }
+}
+
+/* ═══════════════════════════════════════════
+   STATS BAR
+═══════════════════════════════════════════ */
+.stats-bar {
+  max-width: 1200px;
+  margin: 0 auto 1.25rem;
+  padding: 0 1rem;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: .75rem;
+}
+@media (min-width: 640px) {
+  .stats-bar { padding: 0 2rem; gap: 1rem; grid-template-columns: repeat(3, 1fr); }
+}
+
+.stat-card {
+  background: var(--surface);
+  border: 1.5px solid var(--border);
+  border-radius: var(--radius);
+  padding: .75rem 1rem;
+}
+@media (min-width: 640px) {
+  .stat-card { padding: .85rem 1.25rem; }
+}
+.stat-label {
+  font-family: 'DM Mono', monospace;
+  font-size: .58rem;
+  letter-spacing: .1em;
+  text-transform: uppercase;
+  color: var(--muted);
+  margin-bottom: .3rem;
+}
+.stat-value {
+  font-family: 'Playfair Display', serif;
+  font-size: 1.4rem;
+  font-weight: 700;
+  color: var(--text);
+  line-height: 1;
+}
+@media (min-width: 640px) { .stat-value { font-size: 1.6rem; } }
+.stat-value .unit { font-size: .9rem; font-weight: 400; }
+.stat-sub { font-size: .7rem; color: var(--muted); margin-top: .3rem; line-height: 1.4; }
+.chg-good { color: var(--green); font-weight: 500; }
+.chg-bad  { color: var(--red);   font-weight: 500; }
+
+/* ═══════════════════════════════════════════
+   TABLE WRAPPER
+═══════════════════════════════════════════ */
+.table-wrapper {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 1rem;
+  overflow-x: auto;
+  -webkit-overflow-scrolling: touch;
+}
+@media (min-width: 640px) { .table-wrapper { padding: 0 2rem; } }
+
+/* Scroll hint on small screens */
+.scroll-hint {
+  display: block;
+  font-size: .72rem;
+  color: var(--muted);
+  font-style: italic;
+  text-align: right;
+  margin-bottom: .3rem;
+  padding-right: 1rem;
+}
+@media (min-width: 900px) { .scroll-hint { display: none; } }
+
+table {
+  width: 100%;
+  border-collapse: collapse;
+  background: var(--surface);
+  border: 1.5px solid var(--border);
+  border-radius: var(--radius);
+  overflow: hidden;
+  min-width: 560px; /* prevents collapsing too far */
+}
+
+/* ── Table head ── */
+thead tr { background: var(--surface2); border-bottom: 2px solid var(--border-strong); }
+thead th {
+  font-family: 'DM Mono', monospace;
+  font-size: .6rem;
+  letter-spacing: .08em;
+  text-transform: uppercase;
+  color: var(--muted);
+  font-weight: 500;
+  padding: .7rem .75rem;
+  text-align: left;
+  white-space: nowrap;
+  cursor: pointer;
+  user-select: none;
+  transition: color .15s;
+}
+thead th:hover { color: var(--text); }
+thead th.sorted { color: var(--accent); }
+thead th .si { opacity: .4; margin-left: .2em; font-size: .75em; }
+thead th.sorted .si { opacity: 1; }
+thead th.no-sort { cursor: default; }
+thead th.no-sort:hover { color: var(--muted); }
+
+/* ── Table body ── */
+tbody tr { border-bottom: 1px solid var(--border); transition: background .1s; }
+tbody tr:last-child { border-bottom: none; }
+tbody tr:hover { background: #f0efe9; }
+td { padding: .7rem .75rem; vertical-align: middle; }
+
+/* Responsive column hiding */
+.col-tablet  { display: none; }
+.col-desktop { display: none; }
+@media (min-width: 700px)  { .col-tablet  { display: table-cell; } }
+@media (min-width: 1050px) { .col-desktop { display: table-cell; } }
+
+/* ── Cell types ── */
+.td-rank {
+  font-family: 'DM Mono', monospace;
+  font-size: .78rem;
+  color: var(--muted);
+  text-align: right;
+  padding-right: 1rem;
+  width: 2.8rem;
+}
+.td-rank.top3 { font-weight: 600; color: var(--gold); }
+
+.td-name {
+  font-weight: 400;
+  font-size: .875rem;
+}
+.td-name .uni-btn {
+  background: none;
+  border: none;
+  cursor: pointer;
+  text-align: left;
+  font-family: inherit;
+  font-size: inherit;
+  font-weight: inherit;
+  color: inherit;
+  padding: 0;
+  text-decoration: underline;
+  text-decoration-color: transparent;
+  text-decoration-thickness: 1px;
+  text-underline-offset: 2px;
+  transition: text-decoration-color .15s, color .15s;
+}
+.td-name .uni-btn:hover { color: var(--accent); text-decoration-color: var(--accent); }
+.td-name sup { font-size: .65em; color: var(--muted); }
+
+.badges-row {
+  display: flex;
+  gap: .3rem;
+  margin-top: .25rem;
+  flex-wrap: wrap;
+}
+@media (min-width: 700px) { .badges-row { display: none; } } /* hidden on tablet+, shown in own columns */
+
+.td-gap {
+  font-family: 'DM Mono', monospace;
+  font-size: .88rem;
+  font-weight: 500;
+  text-align: right;
+  white-space: nowrap;
+}
+.td-gap .unit { font-size: .7rem; font-weight: 300; color: var(--muted); }
+
+.td-prev-rank, .td-prev-gap {
+  font-family: 'DM Mono', monospace;
+  font-size: .78rem;
+  color: var(--muted);
+  text-align: right;
+}
+
+.td-change { text-align: right; font-family: 'DM Mono', monospace; font-size: .8rem; white-space: nowrap; }
+.change-up   { color: var(--green); }
+.change-down { color: var(--red); }
+.change-same { color: var(--muted); }
+
+.td-audit, .td-sage, .td-source { text-align: center; }
+
+/* ── Badges ── */
+.badge {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 50%;
+  width: 20px; height: 20px;
+  font-size: .78rem;
+  line-height: 1;
+  flex-shrink: 0;
+}
+.badge-yes  { background: var(--green-bg);  color: var(--green); font-weight: 700; }
+.badge-no   { background: var(--surface2);  color: var(--border-strong); }
+.badge-sage { background: var(--purple-bg); color: var(--purple); font-size: .55rem; font-weight: 700; font-family: 'DM Mono', monospace; letter-spacing: 0; border-radius: var(--radius-sm); width: auto; padding: 0 .35rem; height: 18px; }
+.badge-sage-no { background: var(--surface2); color: var(--border-strong); font-size: .55rem; font-family: 'DM Mono', monospace; border-radius: var(--radius-sm); width: auto; padding: 0 .35rem; height: 18px; }
+
+/* ── Actions pips ── */
+.td-actions { text-align: center; white-space: nowrap; }
+.pips {
+  display: inline-flex;
+  gap: 2px;
+  align-items: center;
+}
+.pip {
+  width: 5px; height: 11px;
+  border-radius: 2px;
+  background: var(--border);
+}
+.pip.on { background: var(--accent); }
+.pip-label {
+  font-family: 'DM Mono', monospace;
+  font-size: .65rem;
+  color: var(--muted);
+  margin-left: 4px;
+}
+
+/* ── Source link ── */
+.source-link {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--accent);
+  opacity: .6;
+  transition: opacity .15s;
+  text-decoration: none;
+}
+.source-link:hover { opacity: 1; }
+
+/* ── Gap colour ── */
+.gap-low  { color: var(--green); }
+.gap-mid  { color: var(--amber); }
+.gap-high { color: var(--red); }
+
+/* ═══════════════════════════════════════════
+   LEGEND
+═══════════════════════════════════════════ */
+.legend {
+  max-width: 1200px;
+  margin: 1rem auto 0;
+  padding: 0 1rem;
+  display: flex;
+  gap: 1rem 1.5rem;
+  flex-wrap: wrap;
+  align-items: center;
+}
+@media (min-width: 640px) { .legend { padding: 0 2rem; } }
+.legend-item { display: flex; align-items: center; gap: .35rem; font-size: .75rem; color: var(--muted); }
+.dot { width: 7px; height: 7px; border-radius: 50%; flex-shrink: 0; }
+
+/* ═══════════════════════════════════════════
+   FOOTNOTE
+═══════════════════════════════════════════ */
+.footnote-text {
+  max-width: 1200px;
+  margin: 1.25rem auto 0;
+  padding: 1.1rem 1rem 0;
+  font-size: .73rem;
+  color: var(--muted);
+  line-height: 1.7;
+  border-top: 1px solid var(--border);
+}
+@media (min-width: 640px) { .footnote-text { padding: 1.25rem 2rem 0; } }
+
+/* ═══════════════════════════════════════════
+   FOOTER
+═══════════════════════════════════════════ */
+footer { max-width: 1200px; margin: 1.75rem auto 0; padding: 0 1rem; }
+@media (min-width: 640px) { footer { padding: 0 2rem; } }
+.footer-inner {
+  background: var(--surface);
+  border: 1.5px solid var(--border);
+  border-radius: var(--radius);
+  padding: 1rem 1.25rem;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 1rem;
+}
+@media (min-width: 640px) {
+  .footer-inner { grid-template-columns: repeat(4, auto) 1fr; align-items: center; gap: 1.5rem 2rem; padding: 1.25rem 1.5rem; }
+}
+.footer-stat { display: flex; flex-direction: column; gap: .15rem; }
+.footer-stat-label { font-family: 'DM Mono', monospace; font-size: .58rem; letter-spacing: .1em; text-transform: uppercase; color: var(--muted); }
+.footer-stat-value { font-family: 'Playfair Display', serif; font-size: 1.2rem; font-weight: 700; color: var(--text); }
+.footer-note { font-size: .72rem; color: var(--muted); font-style: italic; line-height: 1.5; grid-column: 1 / -1; }
+@media (min-width: 640px) { .footer-note { grid-column: auto; text-align: right; } }
+
+/* ═══════════════════════════════════════════
+   MODAL
+═══════════════════════════════════════════ */
+.modal-backdrop {
+  display: none;
+  position: fixed;
+  inset: 0;
+  background: rgba(0,0,0,.45);
+  z-index: 100;
+  align-items: flex-end; /* mobile: sheet from bottom */
+  justify-content: center;
+  padding: 0;
+  overflow-y: auto;
+}
+.modal-backdrop.open { display: flex; }
+@media (min-width: 640px) {
+  .modal-backdrop { align-items: center; padding: 2rem; }
+}
+
+.modal {
+  background: var(--surface);
+  width: 100%;
+  max-height: 92vh;
+  overflow-y: auto;
+  border-radius: var(--radius-lg) var(--radius-lg) 0 0;
+  box-shadow: 0 -4px 32px rgba(0,0,0,.15);
+  position: relative;
+  -webkit-overflow-scrolling: touch;
+}
+@media (min-width: 640px) {
+  .modal {
     max-width: 640px;
-    line-height: 1.6;
-    margin-bottom: 1.25rem;
+    border-radius: var(--radius-lg);
+    box-shadow: 0 8px 48px rgba(0,0,0,.2);
+    max-height: 85vh;
   }
-  .source-tag {
-    display: inline-block;
-    font-family: 'DM Mono', monospace;
-    font-size: .68rem;
-    background: var(--surface2);
-    border: 1px solid var(--border);
-    border-radius: 4px;
-    padding: .2rem .5rem;
-    color: var(--muted);
-  }
+}
 
-  /* ── Controls ── */
-  .controls {
-    max-width: 1200px;
-    margin: 1.75rem auto 1rem;
-    padding: 0 2rem;
-    display: flex;
-    align-items: center;
-    gap: 1rem;
-    flex-wrap: wrap;
-  }
-  .control-label {
-    font-family: 'DM Mono', monospace;
-    font-size: .7rem;
-    letter-spacing: .12em;
-    text-transform: uppercase;
-    color: var(--muted);
-  }
-  .metric-select, .sort-select {
-    background: var(--surface);
-    border: 1.5px solid var(--border);
-    border-radius: 6px;
-    color: var(--text);
-    font-family: 'DM Sans', sans-serif;
-    font-size: .85rem;
-    padding: .45rem 2rem .45rem .75rem;
-    cursor: pointer;
-    outline: none;
-    appearance: none;
-    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='10' height='6' fill='none'%3E%3Cpath d='M1 1l4 4 4-4' stroke='%236b6760' stroke-width='1.5' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E");
-    background-repeat: no-repeat;
-    background-position: right .65rem center;
-    transition: border-color .15s;
-  }
-  .metric-select:focus, .sort-select:focus { border-color: var(--accent); }
-  .divider { width: 1px; height: 1.5rem; background: var(--border); margin: 0 .15rem; }
-  .info-note { margin-left: auto; font-size: .78rem; color: var(--muted); font-style: italic; }
+.modal-header {
+  padding: 1.25rem 1.25rem .75rem;
+  border-bottom: 1px solid var(--border);
+  position: sticky;
+  top: 0;
+  background: var(--surface);
+  z-index: 1;
+  display: flex;
+  align-items: flex-start;
+  gap: .75rem;
+  justify-content: space-between;
+}
+.modal-title {
+  font-family: 'Playfair Display', serif;
+  font-size: 1.15rem;
+  font-weight: 700;
+  line-height: 1.25;
+  flex: 1;
+}
+@media (min-width: 640px) { .modal-title { font-size: 1.3rem; } }
+.modal-close {
+  background: var(--surface2);
+  border: none;
+  border-radius: 50%;
+  width: 30px; height: 30px;
+  display: flex; align-items: center; justify-content: center;
+  cursor: pointer;
+  color: var(--muted);
+  font-size: 1.1rem;
+  flex-shrink: 0;
+  transition: background .15s;
+}
+.modal-close:hover { background: var(--border); color: var(--text); }
 
-  /* ── Stats bar ── */
-  .stats-bar {
-    max-width: 1200px;
-    margin: 0 auto 1.5rem;
-    padding: 0 2rem;
-    display: flex;
-    gap: 1.25rem;
-    flex-wrap: wrap;
-  }
-  .stat-card {
-    background: var(--surface);
-    border: 1.5px solid var(--border);
-    border-radius: 8px;
-    padding: .85rem 1.25rem;
-    flex: 1;
-    min-width: 155px;
-  }
-  .stat-label {
-    font-family: 'DM Mono', monospace;
-    font-size: .62rem;
-    letter-spacing: .1em;
-    text-transform: uppercase;
-    color: var(--muted);
-    margin-bottom: .35rem;
-  }
-  .stat-value {
-    font-family: 'Playfair Display', serif;
-    font-size: 1.6rem;
-    font-weight: 700;
-    color: var(--text);
-    line-height: 1;
-  }
-  .stat-value .unit { font-size: .95rem; font-weight: 400; }
-  .stat-sub { font-size: .72rem; color: var(--muted); margin-top: .3rem; line-height: 1.5; }
-  .chg-good { color: var(--green); font-weight: 500; }
-  .chg-bad  { color: var(--red);   font-weight: 500; }
+.modal-body { padding: 1.25rem; }
+.modal-body > * + * { margin-top: 1.25rem; }
 
-  /* ── Table ── */
-  .table-wrapper {
-    max-width: 1200px;
-    margin: 0 auto;
-    padding: 0 2rem;
-    overflow-x: auto;
-  }
-  table {
-    width: 100%;
-    border-collapse: collapse;
-    font-size: .875rem;
-    background: var(--surface);
-    border: 1.5px solid var(--border);
-    border-radius: 8px;
-    overflow: hidden;
-  }
-  thead tr { background: var(--surface2); border-bottom: 2px solid var(--border-strong); }
-  thead th {
-    font-family: 'DM Mono', monospace;
-    font-size: .63rem;
-    letter-spacing: .08em;
-    text-transform: uppercase;
-    color: var(--muted);
-    font-weight: 500;
-    padding: .8rem .85rem;
-    text-align: left;
-    white-space: nowrap;
-    cursor: pointer;
-    user-select: none;
-    transition: color .15s;
-  }
-  thead th:hover { color: var(--text); }
-  thead th.sorted { color: var(--accent); }
-  thead th .sort-icon { opacity: .4; margin-left: .25em; font-size: .8em; }
-  thead th.sorted .sort-icon { opacity: 1; }
-  thead th.no-sort { cursor: default; }
-  thead th.no-sort:hover { color: var(--muted); }
+/* Modal sections */
+.modal-section-label {
+  font-family: 'DM Mono', monospace;
+  font-size: .62rem;
+  letter-spacing: .12em;
+  text-transform: uppercase;
+  color: var(--muted);
+  margin-bottom: .6rem;
+}
 
-  tbody tr { border-bottom: 1px solid var(--border); transition: background .1s; }
-  tbody tr:last-child { border-bottom: none; }
-  tbody tr:hover { background: #f0efe9; }
-  td { padding: .75rem .85rem; vertical-align: middle; }
+/* Badges row in modal header */
+.modal-badges { display: flex; gap: .5rem; flex-wrap: wrap; align-items: center; margin-bottom: .75rem; }
+.modal-badge-pill {
+  display: inline-flex; align-items: center; gap: .3rem;
+  border-radius: 20px;
+  padding: .25rem .65rem;
+  font-size: .75rem;
+  font-weight: 500;
+}
+.pill-vc    { background: var(--teal-bg);   color: var(--teal); }
+.pill-sage  { background: var(--purple-bg); color: var(--purple); }
+.pill-audit { background: var(--green-bg);  color: var(--green); }
+.pill-noaudit { background: var(--surface2); color: var(--muted); }
 
-  /* Rank */
-  .td-rank { font-family:'DM Mono',monospace; font-size:.8rem; color:var(--muted); width:2.8rem; text-align:right; padding-right:1.1rem; }
-  .td-rank.top3 { font-weight:600; color:var(--gold); }
+/* Gap metrics grid */
+.gap-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr;
+  gap: .5rem;
+}
+.gap-cell {
+  background: var(--surface2);
+  border-radius: var(--radius-sm);
+  padding: .6rem .75rem;
+  text-align: center;
+}
+.gap-cell-label { font-size: .65rem; color: var(--muted); font-family: 'DM Mono', monospace; }
+.gap-cell-value { font-family: 'Playfair Display', serif; font-size: 1.3rem; font-weight: 700; margin-top: .1rem; }
 
-  /* Name */
-  .td-name { font-weight:400; font-size:.88rem; }
+/* Quartile bars */
+.quartile-row { display: flex; flex-direction: column; gap: .5rem; }
+.q-bar-wrap { display: flex; align-items: center; gap: .75rem; }
+.q-label { font-size: .75rem; color: var(--muted); width: 9rem; flex-shrink: 0; }
+.q-bar-bg { flex: 1; height: 10px; background: var(--surface2); border-radius: 5px; overflow: hidden; }
+.q-bar-fill { height: 100%; border-radius: 5px; background: var(--accent); transition: width .4s ease; }
+.q-pct { font-family: 'DM Mono', monospace; font-size: .75rem; color: var(--text); width: 2.5rem; text-align: right; }
 
-  /* Gap value */
-  .td-gap { font-family:'DM Mono',monospace; font-size:.88rem; font-weight:500; text-align:right; white-space:nowrap; }
-  .td-gap .unit { font-size:.72rem; font-weight:300; color:var(--muted); }
+/* Actions checklist */
+.action-list { display: flex; flex-direction: column; gap: .4rem; }
+.action-item { display: flex; align-items: flex-start; gap: .5rem; font-size: .8rem; line-height: 1.4; }
+.action-icon {
+  width: 18px; height: 18px; border-radius: 50%;
+  display: flex; align-items: center; justify-content: center;
+  font-size: .7rem; flex-shrink: 0; margin-top: .05rem;
+}
+.action-icon.yes { background: var(--green-bg); color: var(--green); font-weight: 700; }
+.action-icon.no  { background: var(--surface2); color: var(--border-strong); }
+.action-text.done { color: var(--text); }
+.action-text.not  { color: var(--muted); }
 
-  /* Prev columns */
-  .td-prev-rank, .td-prev-gap { font-family:'DM Mono',monospace; font-size:.8rem; color:var(--muted); text-align:right; }
-
-  /* Change */
-  .td-change { text-align:right; font-family:'DM Mono',monospace; font-size:.82rem; white-space:nowrap; }
-  .change-up   { color: var(--green); }
-  .change-down { color: var(--red); }
-  .change-same { color: var(--muted); }
-
-  /* Audit */
-  .td-audit { text-align: center; }
-  .audit-yes {
-    display: inline-flex;
-    align-items: center;
-    justify-content: center;
-    width: 20px; height: 20px;
-    border-radius: 50%;
-    background: #d4edda;
-    color: var(--green);
-    font-size: .85rem;
-    font-weight: 700;
-    line-height: 1;
-  }
-  .audit-no {
-    display: inline-flex;
-    align-items: center;
-    justify-content: center;
-    width: 20px; height: 20px;
-    border-radius: 50%;
-    background: var(--surface2);
-    color: var(--border-strong);
-    font-size: .8rem;
-    line-height: 1;
-  }
-
-  /* Actions pip bar */
-  .td-actions { text-align: center; white-space: nowrap; }
-  .actions-wrap {
-    display: inline-flex;
-    gap: 2px;
-    align-items: center;
-  }
-  .pip {
-    width: 6px; height: 12px;
-    border-radius: 2px;
-    background: var(--border);
-  }
-  .pip.filled { background: var(--accent); }
-  .actions-label {
-    font-family: 'DM Mono', monospace;
-    font-size: .7rem;
-    color: var(--muted);
-    margin-left: 5px;
-  }
-
-  /* Source link */
-  .td-source { text-align: center; }
-  .source-link {
-    display: inline-flex;
-    align-items: center;
-    justify-content: center;
-    color: var(--accent);
-    opacity: .7;
-    transition: opacity .15s;
-    text-decoration: none;
-  }
-  .source-link:hover { opacity: 1; }
-
-  /* Gap colour classes */
-  .gap-low  { color: var(--green); }
-  .gap-mid  { color: var(--amber); }
-  .gap-high { color: var(--red); }
-
-  /* ── Legend ── */
-  .legend {
-    max-width: 1200px;
-    margin: 1.25rem auto 0;
-    padding: 0 2rem;
-    display: flex;
-    gap: 1.5rem;
-    flex-wrap: wrap;
-    align-items: center;
-  }
-  .legend-item { display:flex; align-items:center; gap:.4rem; font-size:.78rem; color:var(--muted); }
-  .dot { width:8px; height:8px; border-radius:50%; flex-shrink:0; }
-
-  /* ── Footnote ── */
-  .footnote-text {
-    max-width: 1200px;
-    margin: 1.5rem auto 0;
-    padding: 1.25rem 2rem 0;
-    font-size: .75rem;
-    color: var(--muted);
-    line-height: 1.7;
-    border-top: 1px solid var(--border);
-  }
-
-  /* ── Footer ── */
-  footer { max-width: 1200px; margin: 2rem auto 0; padding: 0 2rem; }
-  .footer-inner {
-    background: var(--surface);
-    border: 1.5px solid var(--border);
-    border-radius: 8px;
-    padding: 1.25rem 1.5rem;
-    display: flex;
-    gap: 2rem;
-    flex-wrap: wrap;
-    align-items: flex-start;
-  }
-  .footer-stat { display:flex; flex-direction:column; gap:.2rem; }
-  .footer-stat-label { font-family:'DM Mono',monospace; font-size:.62rem; letter-spacing:.1em; text-transform:uppercase; color:var(--muted); }
-  .footer-stat-value { font-family:'Playfair Display',serif; font-size:1.3rem; font-weight:700; color:var(--text); }
-  .footer-note { margin-left:auto; font-size:.74rem; color:var(--muted); font-style:italic; max-width:360px; text-align:right; line-height:1.55; align-self:center; }
-
-  @media (max-width: 700px) {
-    .info-note { display: none; }
-    td, th { padding: .55rem .5rem; }
-    .footer-note { margin-left:0; text-align:left; max-width:100%; }
-  }
+.modal-source-link {
+  display: inline-flex; align-items: center; gap: .4rem;
+  color: var(--accent); font-size: .82rem; text-decoration: none;
+  border: 1.5px solid var(--border); border-radius: var(--radius-sm);
+  padding: .45rem .9rem; transition: border-color .15s, background .15s;
+}
+.modal-source-link:hover { border-color: var(--accent); background: #f0f5ff; }
 </style>
 </head>
 <body>
 
+<!-- ══════════════ MODAL ══════════════ -->
+<div class="modal-backdrop" id="modal-backdrop" onclick="handleBackdropClick(event)">
+  <div class="modal" id="modal">
+    <div class="modal-header">
+      <div>
+        <div class="modal-badges" id="modal-badges"></div>
+        <div class="modal-title" id="modal-title"></div>
+      </div>
+      <button class="modal-close" onclick="closeModal()" aria-label="Close">✕</button>
+    </div>
+    <div class="modal-body" id="modal-body"></div>
+  </div>
+</div>
+
+<!-- ══════════════ HEADER ══════════════ -->
 <header>
   <div class="header-inner">
-    <h1>Australian University<br><em>Gender Pay Equality</em> Rankings</h1>
+  
+    <h1>Australian University<br><em>Gender Pay Equity</em> Rankings</h1>
     <p class="subtitle">
-      Data from employer reporting to the Workplace Gender Equality Agency (WGEA).
+      Higher rank means better pay equity. Click a university name for more information
     </p>
+    <span class="source-tag">Source: WGEA Employer Census</span>
   </div>
 </header>
 
+<!-- ══════════════ CONTROLS ══════════════ -->
 <div class="controls">
   <span class="control-label">Metric</span>
   <select class="metric-select" id="metric-select" onchange="setMetric(this.value)">
@@ -347,10 +621,8 @@
     <option value="med" selected>Median total remuneration gap</option>
     <option value="q41">Q4–Q1 women's representation difference</option>
   </select>
-
   <div class="divider"></div>
-
-  <span class="control-label">Sort by</span>
+  <span class="control-label">Sort</span>
   <select class="sort-select" id="sort-select" onchange="setSort(this.value)">
     <option value="rank-asc">Best rank first</option>
     <option value="rank-desc">Worst rank first</option>
@@ -359,94 +631,114 @@
     <option value="change-worst">Most declined</option>
     <option value="actions-desc">Most GPG actions</option>
   </select>
-
-  <span class="info-note">Higher rank = better pay equity</span>
 </div>
 
+<!-- ══════════════ STATS BAR ══════════════ -->
 <div class="stats-bar" id="stats-bar"></div>
 
+<!-- ══════════════ TABLE ══════════════ -->
 <div class="table-wrapper">
+  <span class="scroll-hint">← scroll for more columns →</span>
   <table>
     <thead>
       <tr>
-        <th onclick="setSort('rank-asc')">Rank</th>
-        <th onclick="setSort('name-asc')">University</th>
-        <th class="sorted" id="th-gap">2024–25 <span id="th-gap-label">Median Gap</span> <span class="sort-icon">▲</span></th>
-        <th>2023–24 Rank</th>
-        <th>2023–24 <span id="th-prev-label">Median Gap</span></th>
-        <th onclick="setSort('change-best')">Rank Change <span class="sort-icon">↕</span></th>
-        <th class="no-sort" title="Has the university published a gender pay gap analysis?">GPG Audit</th>
-        <th onclick="setSort('actions-desc')" title="Number of GPG actions taken out of 10 possible (2024–25)">Actions <span class="sort-icon">↕</span></th>
-        <th class="no-sort">Source</th>
+        <th onclick="headerSort('rank')" id="th-rank">Rank <span class="si" id="si-rank"></span></th>
+        <th onclick="headerSort('name')" id="th-name">University <span class="si" id="si-name"></span></th>
+        <th onclick="headerSort('rank')" id="th-gap" class="sorted">2024–25 <span id="th-gap-label">Median</span> <span class="si" id="si-gap">▲</span></th>
+        <th class="col-desktop no-sort">2023–24 Rank</th>
+        <th class="col-desktop no-sort">2023–24 <span id="th-prev-label">Median</span></th>
+        <th class="col-tablet" onclick="headerSort('change')" id="th-change">Change <span class="si" id="si-change"></span></th>
+        <th class="col-tablet no-sort" title="GPG analysis published (2024–25)">GPG Analysis</th>
+        <th class="col-desktop" onclick="headerSort('actions')" id="th-actions" title="GPG actions taken (2024–25)">Actions <span class="si" id="si-actions"></span></th>
+        <th class="no-sort">Src</th>
       </tr>
     </thead>
     <tbody id="table-body"></tbody>
   </table>
 </div>
 
+<!-- ══════════════ LEGEND ══════════════ -->
 <div class="legend" id="legend-bar"></div>
-<div class="footnote-text">* The University of Adelaide and the University of South Australia merged to become Adelaide University in 2026</div>
+
+<!-- ══════════════ FOOTNOTE ══════════════ -->
 <div class="footnote-text" id="footnote-text"></div>
-    
-<footer>
-  <div class="footer-inner" id="footer-inner"></div>
-</footer>
+
+<!-- ══════════════ FOOTER ══════════════ -->
+<footer><div class="footer-inner" id="footer-inner"></div></footer>
 
 <script>
-// ─────────────────────────────────────────────
-// Embedded data
-// ─────────────────────────────────────────────
-const RAW = [
-  {name:"University of New South Wales",          avg23:7.5,  med23:2.5,  q1_23:47,q4_23:57,pctW23:53,staff23:15589, avg24:6.9,  med24:2.4,  q1_24:47,q4_24:58,pctW24:53,staff24:17232, audit24:'Y', actions24:8,  src:'28HB33SHM'},
-  {name:"University of Tasmania",                 avg23:6.2,  med23:0.9,  q1_23:53,q4_23:63,pctW23:59,staff23:6402,  avg24:6.2,  med24:3.9,  q1_24:53,q4_24:64,pctW24:60,staff24:5689,  audit24:'Y', actions24:4,  src:'4GSYYJ95R'},
-  {name:"Edith Cowan University",                 avg23:7.7,  med23:5.3,  q1_23:61,q4_23:71,pctW23:68,staff23:3845,  avg24:5.4,  med24:4.1,  q1_24:62,q4_24:71,pctW24:68,staff24:4467,  audit24:'N', actions24:0,  src:'9885YR728'},
-  {name:"The University of Queensland",           avg23:10.3, med23:3.5,  q1_23:50,q4_23:67,pctW23:58,staff23:13446, avg24:9.5,  med24:1.8,  q1_24:50,q4_24:67,pctW24:59,staff24:13571, audit24:'Y', actions24:7,  src:'Z8J9BFTFY'},
-  {name:"The University of Sydney",               avg23:7.4,  med23:1.8,  q1_23:52,q4_23:60,pctW23:58,staff23:17663, avg24:7.3,  med24:1.7,  q1_24:53,q4_24:60,pctW24:58,staff24:18198, audit24:'Y', actions24:4,  src:'R9WQHRX33'},
-  {name:"The University of Newcastle",            avg23:8.3,  med23:3.2,  q1_23:58,q4_23:64,pctW23:64,staff23:6332,  avg24:7.9,  med24:4.8,  q1_24:59,q4_24:51,pctW24:64,staff24:6301,  audit24:'Y', actions24:6,  src:'GNFYJW7HD'},
-  {name:"University of Canberra",                 avg23:6.9,  med23:4.3,  q1_23:57,q4_23:70,pctW23:63,staff23:2396,  avg24:6.5,  med24:3.1,  q1_24:60,q4_24:68,pctW24:66,staff24:3123,  audit24:'Y', actions24:1,  src:'2Q8DFXGKT'},
-  {name:"University of Wollongong",               avg23:8.0,  med23:7.2,  q1_23:55,q4_23:61,pctW23:62,staff23:5531,  avg24:6.6,  med24:5.6,  q1_24:56,q4_24:64,pctW24:62,staff24:5056,  audit24:'Y', actions24:6,  src:'WJWXJ3X8D'},
-  {name:"Queensland University of Technology",    avg23:6.5,  med23:6.0,  q1_23:53,q4_23:61,pctW23:59,staff23:7429,  avg24:6.1,  med24:4.8,  q1_24:51,q4_24:61,pctW24:59,staff24:7002,  audit24:'Y', actions24:3,  src:'4GSFYCKWT'},
-  {name:"Griffith University",                    avg23:10.3, med23:6.1,  q1_23:53,q4_23:69,pctW23:63,staff23:7063,  avg24:10.1, med24:6.8,  q1_24:52,q4_24:70,pctW24:63,staff24:6994,  audit24:'Y', actions24:6,  src:'P6J68YCHP'},
-  {name:"Monash University",                      avg23:9.9,  med23:4.0,  q1_23:49,q4_23:62,pctW23:58,staff23:14895, avg24:9.5,  med24:3.9,  q1_24:50,q4_24:63,pctW24:58,staff24:14387, audit24:'Y', actions24:10, src:'Y6FM482FH'},
-  {name:"Charles Darwin University",              avg23:9.9,  med23:3.3,  q1_23:55,q4_23:69,pctW23:61,staff23:1634,  avg24:7.7,  med24:3.2,  q1_24:53,q4_24:66,pctW24:60,staff24:1968,  audit24:'Y', actions24:1,  src:'837FZNNYF'},
-  {name:"RMIT University",                        avg23:6.7,  med23:4.4,  q1_23:50,q4_23:62,pctW23:56,staff23:8967,  avg24:6.1,  med24:3.7,  q1_24:49,q4_24:61,pctW24:55,staff24:9588,  audit24:'Y', actions24:9,  src:'KBXRQKW25'},
-  {name:"The University of Melbourne",            avg23:10.3, med23:4.0,  q1_23:50,q4_23:66,pctW23:60,staff23:14968, avg24:9.6,  med24:5.5,  q1_24:50,q4_24:66,pctW24:60,staff24:14921, audit24:'Y', actions24:1,  src:'DSCBG6C45'},
-  {name:"Swinburne University of Technology",     avg23:11.5, med23:9.4,  q1_23:40,q4_23:65,pctW23:54,staff23:2894,  avg24:11.9, med24:8.1,  q1_24:40,q4_24:66,pctW24:55,staff24:2846,  audit24:'Y', actions24:4,  src:'7DY789327'},
-  {name:"La Trobe University",                    avg23:8.2,  med23:7.3,  q1_23:57,q4_23:70,pctW23:66,staff23:5759,  avg24:8.4,  med24:8.4,  q1_24:59,q4_24:72,pctW24:67,staff24:5763,  audit24:'Y', actions24:10, src:'ZPF28JZQX'},
-  {name:"Australian National University",         avg23:10.0, med23:7.7,  q1_23:44,q4_23:62,pctW23:54,staff23:6556,  avg24:9.4,  med24:8.8,  q1_24:44,q4_24:61,pctW24:54,staff24:5862,  audit24:'Y', actions24:3,  src:'8HJPKT739'},
-  {name:"Victoria University",                    avg23:8.6,  med23:6.9,  q1_23:53,q4_23:71,pctW23:62,staff23:2642,  avg24:8.3,  med24:9.1,  q1_24:52,q4_24:69,pctW24:62,staff24:3199,  audit24:'Y', actions24:8,  src:'P6J68YCHP'},
-  {name:"Western Sydney University",              avg23:8.3,  med23:5.5,  q1_23:54,q4_23:68,pctW23:63,staff23:6258,  avg24:8.3,  med24:5.8,  q1_24:54,q4_24:70,pctW24:63,staff24:6226,  audit24:'Y', actions24:6,  src:'QZKSWKHPQ'},
-  {name:"The University of Western Australia",    avg23:10.4, med23:6.1,  q1_23:47,q4_23:66,pctW23:57,staff23:6597,  avg24:8.9,  med24:5.8,  q1_24:50,q4_24:65,pctW24:57,staff24:7157,  audit24:'Y', actions24:6,  src:'YRHFR7N3S'},
-  {name:"Curtin University",                      avg23:9.0,  med23:4.6,  q1_23:49,q4_23:63,pctW23:60,staff23:7450,  avg24:9.7,  med24:6.9,  q1_24:48,q4_24:67,pctW24:61,staff24:7450,  audit24:'Y', actions24:6,  src:'3RFHPYC49'},
-  {name:"Macquarie University",                   avg23:10.9, med23:8.8,  q1_23:49,q4_23:67,pctW23:59,staff23:6571,  avg24:11.8, med24:8.8,  q1_24:49,q4_24:67,pctW24:59,staff24:6456,  audit24:'Y', actions24:5,  src:'F823CH6ZX'},
-  {name:"University of South Australia*",          avg23:10.6, med23:9.4,  q1_23:51,q4_23:74,pctW23:63,staff23:4384,  avg24:9.6,  med24:6.2,  q1_24:53,q4_24:74,pctW24:63,staff24:4531,  audit24:'Y', actions24:4,  src:'3DCST2FYM'},
-  {name:"Deakin University",                      avg23:8.0,  med23:8.0,  q1_23:54,q4_23:67,pctW23:62,staff23:7797,  avg24:9.0,  med24:6.5,  q1_24:52,q4_24:65,pctW24:62,staff24:8596,  audit24:'Y', actions24:4,  src:'PNRD34JPS'},
-  {name:"Federation University Australia",        avg23:13.5, med23:11.5, q1_23:52,q4_23:76,pctW23:64,staff23:1959,  avg24:13.8, med24:8.3,  q1_24:51,q4_24:75,pctW24:65,staff24:1938,  audit24:'Y', actions24:5,  src:'N6N5PPY6Q'},
-  {name:"Murdoch University",                     avg23:12.8, med23:10.3, q1_23:52,q4_23:72,pctW23:64,staff23:2902,  avg24:12.3, med24:8.7,  q1_24:54,q4_24:73,pctW24:65,staff24:3139,  audit24:'Y', actions24:8,  src:'PHHXY4XCR'},
-  {name:"Flinders University",                    avg23:11.8, med23:9.7,  q1_23:56,q4_23:75,pctW23:68,staff23:3469,  avg24:11.6, med24:8.5,  q1_24:55,q4_24:73,pctW24:67,staff24:3474,  audit24:'Y', actions24:0,  src:'PWH7SW3MX'},
-  {name:"Southern Cross University",              avg23:9.9,  med23:9.3,  q1_23:61,q4_23:72,pctW23:67,staff23:1911,  avg24:11.0, med24:8.3,  q1_24:56,q4_24:73,pctW24:69,staff24:2090,  audit24:'Y', actions24:4,  src:'7S97D57RG'},
-  {name:"University of New England",              avg23:11.2, med23:10.4, q1_23:50,q4_23:70,pctW23:62,staff23:2305,  avg24:11.0, med24:11.7, q1_24:49,q4_24:70,pctW24:62,staff24:1989,  audit24:'N', actions24:0,  src:'43TRQNRGF'},
-  {name:"The University of Notre Dame Australia", avg23:17.8, med23:18.9, q1_23:52,q4_23:81,pctW23:68,staff23:1652,  avg24:13.4, med24:18.0, q1_24:59,q4_24:77,pctW24:67,staff24:1650,  audit24:'N', actions24:0,  src:'5BKQ2J76G'},
-  {name:"University of Technology Sydney",        avg23:8.8,  med23:3.5,  q1_23:48,q4_23:61,pctW23:56,staff23:5727,  avg24:7.0,  med24:4.4,  q1_24:50,q4_24:62,pctW24:56,staff24:7838,  audit24:'Y', actions24:3,  src:'2TN7CMZK9'},
-  {name:"The University of Adelaide*",             avg23:16.7, med23:14.3, q1_23:40,q4_23:73,pctW23:56,staff23:4544,  avg24:17.0, med24:14.3, q1_24:41,q4_24:73,pctW24:57,staff24:4739,  audit24:'Y', actions24:7,  src:'QNGHXSYP9'},
-  {name:"Charles Sturt University",               avg23:10.1, med23:9.5,  q1_23:54,q4_23:75,pctW23:66,staff23:3857,  avg24:10.4, med24:10.1, q1_24:55,q4_24:75,pctW24:67,staff24:4035,  audit24:'Y', actions24:3,  src:'WK7FPP853'},
-  {name:"University of Southern Queensland",      avg23:11.7, med23:8.4,  q1_23:48,q4_23:65,pctW23:60,staff23:3569,  avg24:11.0, med24:9.0,  q1_24:50,q4_24:63,pctW24:61,staff24:3015,  audit24:'Y', actions24:4,  src:'4BKM3GK52'},
-  {name:"Bond University",                        avg23:18.3, med23:11.9, q1_23:48,q4_23:77,pctW23:65,staff23:1399,  avg24:18.0, med24:9.1,  q1_24:48,q4_24:76,pctW24:63,staff24:1483,  audit24:'Y', actions24:2,  src:'5Q77Q9SBT'},
-  {name:"James Cook University",                  avg23:12.0, med23:11.2, q1_23:54,q4_23:73,pctW23:66,staff23:2700,  avg24:13.0, med24:11.5, q1_24:54,q4_24:75,pctW24:66,staff24:2609,  audit24:'Y', actions24:0,  src:'58Y3YYPDP'},
-  {name:"University of the Sunshine Coast",       avg23:10.9, med23:10.0, q1_23:57,q4_23:74,pctW23:67,staff23:2385,  avg24:10.3, med24:7.1,  q1_24:57,q4_24:74,pctW24:67,staff24:2856,  audit24:'Y', actions24:4,  src:'DNNM6FCGR'},
-  {name:"Australian Catholic University",         avg23:11.5, med23:6.9,  q1_23:61,q4_23:74,pctW23:70,staff23:3722,  avg24:12.6, med24:7.2,  q1_24:60,q4_24:76,pctW24:70,staff24:3691,  audit24:'Y', actions24:5,  src:'78M7PJSTF'},
-  {name:"Central Queensland University",          avg23:11.4, med23:13.5, q1_23:51,q4_23:76,pctW23:65,staff23:3275,  avg24:11.3, med24:13.3, q1_24:51,q4_24:76,pctW24:65,staff24:3460,  audit24:'Y', actions24:5,  src:'Z9RCZFW65'},
+// ═══════════════════════════════════════════
+// ACTION LABELS
+// ═══════════════════════════════════════════
+const ACTION_LABELS = [
+  { key: 'Clik',  label: 'Corrected instances of unequal pay' },
+  { key: 'JbEv',  label: 'Reviewed performance evaluation processes to ensure no gender bias' },
+  { key: 'IdGp',  label: 'Identified cause/s of the pay gaps' },
+  { key: 'Oth',   label: 'Implemented other changes' },
+  { key: 'PEq',   label: 'Created a pay equity strategy or gender equality action plan' },
+  { key: 'PEqEm', label: 'Reported pay gap analysis results to all employees' },
+  { key: 'PEqEx', label: 'Reported pay gap analysis results to the executive' },
+  { key: 'PEqGB', label: 'Reported pay gap analysis results to the governing body' },
+  { key: 'RRem',  label: 'Reviewed remuneration decision-making processes' },
+  { key: 'Strat', label: 'Developed a strategy to address workforce composition issues' },
+  { key: 'acq',   label: 'Reviewed talent acquisition processes' },
 ];
 
-// ─────────────────────────────────────────────
-// State
-// ─────────────────────────────────────────────
+// ═══════════════════════════════════════════
+// DATA
+// acts: [Clik, JbEv, IdGp, Oth, PEq, PEqEm, PEqEx, PEqGB, RRem, Strat, acq]
+// ═══════════════════════════════════════════
+const RAW = [
+  {name:"University of New South Wales",          star:false, avg23:7.5,  med23:2.5,  q1_23:47,q4_23:57,pctW23:53,staff23:15589, avg24:6.9,  med24:2.4,  q1_24:47,q4_24:58,pctW24:53,staff24:17232, audit24:'Y', acts:[1,0,1,0,1,1,1,1,1,1,0], src:'28HB33SHM', womenVC:0, sage:1},
+  {name:"University of Tasmania",                 star:false, avg23:6.2,  med23:0.9,  q1_23:53,q4_23:63,pctW23:59,staff23:6402,  avg24:6.2,  med24:3.9,  q1_24:53,q4_24:64,pctW24:60,staff24:5689,  audit24:'Y', acts:[0,0,1,0,1,0,1,1,0,0,0], src:'4GSYYJ95R', womenVC:0, sage:0},
+  {name:"Edith Cowan University",                 star:false, avg23:7.7,  med23:5.3,  q1_23:61,q4_23:71,pctW23:68,staff23:3845,  avg24:5.4,  med24:4.1,  q1_24:62,q4_24:71,pctW24:68,staff24:4467,  audit24:'N', acts:[0,0,0,0,0,0,0,0,0,0,0], src:'9885YR728', womenVC:1, sage:1},
+  {name:"The University of Queensland",           star:false, avg23:10.3, med23:3.5,  q1_23:50,q4_23:67,pctW23:58,staff23:13446, avg24:9.5,  med24:1.8,  q1_24:50,q4_24:67,pctW24:59,staff24:13571, audit24:'Y', acts:[0,1,1,0,0,1,1,1,1,0,1], src:'Z8J9BFTFY', womenVC:1, sage:1},
+  {name:"The University of Sydney",               star:false, avg23:7.4,  med23:1.8,  q1_23:52,q4_23:60,pctW23:58,staff23:17663, avg24:7.3,  med24:1.7,  q1_24:53,q4_24:60,pctW24:58,staff24:18198, audit24:'Y', acts:[0,0,0,0,0,1,1,1,1,0,0], src:'R9WQHRX33', womenVC:0, sage:1},
+  {name:"The University of Newcastle",            star:false, avg23:8.3,  med23:3.2,  q1_23:58,q4_23:64,pctW23:64,staff23:6332,  avg24:7.9,  med24:4.8,  q1_24:59,q4_24:51,pctW24:64,staff24:6301,  audit24:'Y', acts:[1,0,1,0,0,0,1,1,1,0,1], src:'GNFYJW7HD', womenVC:0, sage:1},
+  {name:"University of Canberra",                 star:false, avg23:6.9,  med23:4.3,  q1_23:57,q4_23:70,pctW23:63,staff23:2396,  avg24:6.5,  med24:3.1,  q1_24:60,q4_24:68,pctW24:66,staff24:3123,  audit24:'Y', acts:[0,0,0,0,0,0,1,0,0,0,0], src:'2Q8DFXGKT', womenVC:1, sage:1},
+  {name:"University of Wollongong",               star:false, avg23:8.0,  med23:7.2,  q1_23:55,q4_23:61,pctW23:62,staff23:5531,  avg24:6.6,  med24:5.6,  q1_24:56,q4_24:64,pctW24:62,staff24:5056,  audit24:'Y', acts:[0,0,1,1,1,0,1,1,0,1,0], src:'WJWXJ3X8D', womenVC:0, sage:0},
+  {name:"Queensland University of Technology",    star:false, avg23:6.5,  med23:6.0,  q1_23:53,q4_23:61,pctW23:59,staff23:7429,  avg24:6.1,  med24:4.8,  q1_24:51,q4_24:61,pctW24:59,staff24:7002,  audit24:'Y', acts:[0,0,1,1,0,0,1,0,0,0,0], src:'4GSFYCKWT', womenVC:1, sage:0},
+  {name:"Griffith University",                    star:false, avg23:10.3, med23:6.1,  q1_23:53,q4_23:69,pctW23:63,staff23:7063,  avg24:10.1, med24:6.8,  q1_24:52,q4_24:70,pctW24:63,staff24:6994,  audit24:'Y', acts:[1,0,1,0,0,1,0,1,1,1,0], src:'P6J68YCHP', womenVC:1, sage:1},
+  {name:"Monash University",                      star:false, avg23:9.9,  med23:4.0,  q1_23:49,q4_23:62,pctW23:58,staff23:14895, avg24:9.5,  med24:3.9,  q1_24:50,q4_24:63,pctW24:58,staff24:14387, audit24:'Y', acts:[1,0,1,1,1,1,1,1,1,1,1], src:'Y6FM482FH', womenVC:1, sage:1},
+  {name:"Charles Darwin University",              star:false, avg23:9.9,  med23:3.3,  q1_23:55,q4_23:69,pctW23:61,staff23:1634,  avg24:7.7,  med24:3.2,  q1_24:53,q4_24:66,pctW24:60,staff24:1968,  audit24:'Y', acts:[0,0,0,1,0,0,0,0,0,0,0], src:'837FZNNYF', womenVC:0, sage:0},
+  {name:"RMIT University",                        star:false, avg23:6.7,  med23:4.4,  q1_23:50,q4_23:62,pctW23:56,staff23:8967,  avg24:6.1,  med24:3.7,  q1_24:49,q4_24:61,pctW24:55,staff24:9588,  audit24:'Y', acts:[1,0,1,0,1,1,1,1,1,1,1], src:'KBXRQKW25', womenVC:0, sage:1},
+  {name:"The University of Melbourne",            star:false, avg23:10.3, med23:4.0,  q1_23:50,q4_23:66,pctW23:60,staff23:14968, avg24:9.6,  med24:5.5,  q1_24:50,q4_24:66,pctW24:60,staff24:14921, audit24:'Y', acts:[0,0,0,0,1,0,0,0,0,0,0], src:'DSCBG6C45', womenVC:1, sage:1},
+  {name:"Swinburne University of Technology",     star:false, avg23:11.5, med23:9.4,  q1_23:40,q4_23:65,pctW23:54,staff23:2894,  avg24:11.9, med24:8.1,  q1_24:40,q4_24:66,pctW24:55,staff24:2846,  audit24:'Y', acts:[0,0,1,0,0,0,1,1,0,0,1], src:'7DY789327', womenVC:1, sage:1},
+  {name:"La Trobe University",                    star:false, avg23:8.2,  med23:7.3,  q1_23:57,q4_23:70,pctW23:66,staff23:5759,  avg24:8.4,  med24:8.4,  q1_24:59,q4_24:72,pctW24:67,staff24:5763,  audit24:'Y', acts:[1,1,1,0,1,1,1,1,1,1,1], src:'ZPF28JZQX', womenVC:0, sage:1},
+  {name:"Australian National University",         star:false, avg23:10.0, med23:7.7,  q1_23:44,q4_23:62,pctW23:54,staff23:6556,  avg24:9.4,  med24:8.8,  q1_24:44,q4_24:61,pctW24:54,staff24:5862,  audit24:'Y', acts:[0,1,0,1,0,0,1,0,0,0,0], src:'8HJPKT739', womenVC:1, sage:1},
+  {name:"Victoria University",                    star:false, avg23:8.6,  med23:6.9,  q1_23:53,q4_23:71,pctW23:62,staff23:2642,  avg24:8.3,  med24:9.1,  q1_24:52,q4_24:69,pctW24:62,staff24:3199,  audit24:'Y', acts:[0,1,1,1,1,0,1,1,1,1,0], src:'P6J68YCHP', womenVC:1, sage:0},
+  {name:"Western Sydney University",              star:false, avg23:8.3,  med23:5.5,  q1_23:54,q4_23:68,pctW23:63,staff23:6258,  avg24:8.3,  med24:5.8,  q1_24:54,q4_24:70,pctW24:63,staff24:6226,  audit24:'Y', acts:[0,0,1,0,0,1,1,1,1,0,1], src:'QZKSWKHPQ', womenVC:0, sage:1},
+  {name:"The University of Western Australia",    star:false, avg23:10.4, med23:6.1,  q1_23:47,q4_23:66,pctW23:57,staff23:6597,  avg24:8.9,  med24:5.8,  q1_24:50,q4_24:65,pctW24:57,staff24:7157,  audit24:'Y', acts:[0,0,1,1,1,1,1,1,0,0,0], src:'YRHFR7N3S', womenVC:0, sage:1},
+  {name:"Curtin University",                      star:false, avg23:9.0,  med23:4.6,  q1_23:49,q4_23:63,pctW23:60,staff23:7450,  avg24:9.7,  med24:6.9,  q1_24:48,q4_24:67,pctW24:61,staff24:7450,  audit24:'Y', acts:[1,0,1,0,0,1,1,1,1,0,0], src:'3RFHPYC49', womenVC:1, sage:0},
+  {name:"Macquarie University",                   star:false, avg23:10.9, med23:8.8,  q1_23:49,q4_23:67,pctW23:59,staff23:6571,  avg24:11.8, med24:8.8,  q1_24:49,q4_24:67,pctW24:59,staff24:6456,  audit24:'Y', acts:[0,0,1,0,1,0,1,1,0,1,0], src:'F823CH6ZX', womenVC:0, sage:1},
+  {name:"University of South Australia",          star:true,  avg23:10.6, med23:9.4,  q1_23:51,q4_23:74,pctW23:63,staff23:4384,  avg24:9.6,  med24:6.2,  q1_24:53,q4_24:74,pctW24:63,staff24:4531,  audit24:'Y', acts:[0,0,1,1,0,0,1,0,1,0,0], src:'3DCST2FYM', womenVC:0, sage:1},
+  {name:"Deakin University",                      star:false, avg23:8.0,  med23:8.0,  q1_23:54,q4_23:67,pctW23:62,staff23:7797,  avg24:9.0,  med24:6.5,  q1_24:52,q4_24:65,pctW24:62,staff24:8596,  audit24:'Y', acts:[0,0,1,0,0,1,1,1,0,0,0], src:'PNRD34JPS', womenVC:0, sage:0},
+  {name:"Federation University Australia",        star:false, avg23:13.5, med23:11.5, q1_23:52,q4_23:76,pctW23:64,staff23:1959,  avg24:13.8, med24:8.3,  q1_24:51,q4_24:75,pctW24:65,staff24:1938,  audit24:'Y', acts:[0,0,0,1,1,0,1,1,1,0,0], src:'N6N5PPY6Q', womenVC:0, sage:1},
+  {name:"Murdoch University",                     star:false, avg23:12.8, med23:10.3, q1_23:52,q4_23:72,pctW23:64,staff23:2902,  avg24:12.3, med24:8.7,  q1_24:54,q4_24:73,pctW24:65,staff24:3139,  audit24:'Y', acts:[1,1,1,1,0,1,1,1,1,0,0], src:'PHHXY4XCR', womenVC:0, sage:1},
+  {name:"Flinders University",                    star:false, avg23:11.8, med23:9.7,  q1_23:56,q4_23:75,pctW23:68,staff23:3469,  avg24:11.6, med24:8.5,  q1_24:55,q4_24:73,pctW24:67,staff24:3474,  audit24:'Y', acts:[0,0,0,0,0,0,0,0,0,0,0], src:'PWH7SW3MX', womenVC:0, sage:1},
+  {name:"Southern Cross University",              star:false, avg23:9.9,  med23:9.3,  q1_23:61,q4_23:72,pctW23:67,staff23:1911,  avg24:11.0, med24:8.3,  q1_24:56,q4_24:73,pctW24:69,staff24:2090,  audit24:'Y', acts:[0,0,1,0,0,1,1,1,0,0,0], src:'7S97D57RG', womenVC:0, sage:0},
+  {name:"University of New England",              star:false, avg23:11.2, med23:10.4, q1_23:50,q4_23:70,pctW23:62,staff23:2305,  avg24:11.0, med24:11.7, q1_24:49,q4_24:70,pctW24:62,staff24:1989,  audit24:'N', acts:[0,0,0,0,0,0,0,0,0,0,0], src:'43TRQNRGF', womenVC:0, sage:0},
+  {name:"The University of Notre Dame Australia", star:false, avg23:17.8, med23:18.9, q1_23:52,q4_23:81,pctW23:68,staff23:1652,  avg24:13.4, med24:18.0, q1_24:59,q4_24:77,pctW24:67,staff24:1650,  audit24:'N', acts:[0,0,0,0,0,0,0,0,0,0,0], src:'5BKQ2J76G', womenVC:0, sage:0},
+  {name:"University of Technology Sydney",        star:false, avg23:8.8,  med23:3.5,  q1_23:48,q4_23:61,pctW23:56,staff23:5727,  avg24:7.0,  med24:4.4,  q1_24:50,q4_24:62,pctW24:56,staff24:7838,  audit24:'Y', acts:[0,0,1,0,0,0,1,0,1,0,0], src:'2TN7CMZK9', womenVC:0, sage:1},
+  {name:"The University of Adelaide",             star:true,  avg23:16.7, med23:14.3, q1_23:40,q4_23:73,pctW23:56,staff23:4544,  avg24:17.0, med24:14.3, q1_24:41,q4_24:73,pctW24:57,staff24:4739,  audit24:'Y', acts:[1,0,1,0,1,1,1,1,0,0,1], src:'QNGHXSYP9', womenVC:0, sage:1},
+  {name:"Charles Sturt University",               star:false, avg23:10.1, med23:9.5,  q1_23:54,q4_23:75,pctW23:66,staff23:3857,  avg24:10.4, med24:10.1, q1_24:55,q4_24:75,pctW24:67,staff24:4035,  audit24:'Y', acts:[0,0,1,0,0,1,1,0,0,0,0], src:'WK7FPP853', womenVC:1, sage:1},
+  {name:"University of Southern Queensland",      star:false, avg23:11.7, med23:8.4,  q1_23:48,q4_23:65,pctW23:60,staff23:3569,  avg24:11.0, med24:9.0,  q1_24:50,q4_24:63,pctW24:61,staff24:3015,  audit24:'Y', acts:[1,0,1,0,0,0,1,1,0,0,0], src:'4BKM3GK52', womenVC:0, sage:0},
+  {name:"Bond University",                        star:false, avg23:18.3, med23:11.9, q1_23:48,q4_23:77,pctW23:65,staff23:1399,  avg24:18.0, med24:9.1,  q1_24:48,q4_24:76,pctW24:63,staff24:1483,  audit24:'Y', acts:[0,0,1,0,0,0,0,1,0,0,0], src:'5Q77Q9SBT', womenVC:0, sage:0},
+  {name:"James Cook University",                  star:false, avg23:12.0, med23:11.2, q1_23:54,q4_23:73,pctW23:66,staff23:2700,  avg24:13.0, med24:11.5, q1_24:54,q4_24:75,pctW24:66,staff24:2609,  audit24:'Y', acts:[0,0,0,0,0,0,0,0,0,0,0], src:'58Y3YYPDP', womenVC:0, sage:0},
+  {name:"University of the Sunshine Coast",       star:false, avg23:10.9, med23:10.0, q1_23:57,q4_23:74,pctW23:67,staff23:2385,  avg24:10.3, med24:7.1,  q1_24:57,q4_24:74,pctW24:67,staff24:2856,  audit24:'Y', acts:[0,0,1,0,0,0,1,1,1,0,0], src:'DNNM6FCGR', womenVC:1, sage:1},
+  {name:"Australian Catholic University",         star:false, avg23:11.5, med23:6.9,  q1_23:61,q4_23:74,pctW23:70,staff23:3722,  avg24:12.6, med24:7.2,  q1_24:60,q4_24:76,pctW24:70,staff24:3691,  audit24:'Y', acts:[0,0,1,0,0,1,1,1,1,0,0], src:'78M7PJSTF', womenVC:0, sage:1},
+  {name:"Central Queensland University",          star:false, avg23:11.4, med23:13.5, q1_23:51,q4_23:76,pctW23:65,staff23:3275,  avg24:11.3, med24:13.3, q1_24:51,q4_24:76,pctW24:65,staff24:3460,  audit24:'Y', acts:[0,1,0,0,1,0,0,0,1,1,1], src:'Z9RCZFW65', womenVC:0, sage:0},
+];
+
+// ═══════════════════════════════════════════
+// STATE
+// ═══════════════════════════════════════════
 let metric  = 'med';
 let sortKey = 'rank-asc';
 
-// ─────────────────────────────────────────────
-// Helpers
-// ─────────────────────────────────────────────
+// ═══════════════════════════════════════════
+// HELPERS
+// ═══════════════════════════════════════════
 function getGap24(d) {
   if (metric === 'avg') return d.avg24;
   if (metric === 'med') return d.med24;
@@ -472,27 +764,17 @@ function gapClass(v) {
   return v <= 7 ? 'gap-low' : v <= 12 ? 'gap-mid' : 'gap-high';
 }
 const fmt = v => v.toFixed(1);
+const actCount = d => d.acts.reduce((s,v) => s+v, 0);
 
-// Render 10 pips, n filled
-function pips(n) {
-  let html = '<span class="actions-wrap">';
-  for (let i = 0; i < 10; i++) {
-    html += `<span class="pip${i < n ? ' filled' : ''}"></span>`;
-  }
-  html += `<span class="actions-label">${n}/10</span></span>`;
-  return html;
-}
+const EXT_ICON = `<svg xmlns="http://www.w3.org/2000/svg" width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/><polyline points="15 3 21 3 21 9"/><line x1="10" y1="14" x2="21" y2="3"/></svg>`;
 
-// External link SVG icon
-const extIcon = `<svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/><polyline points="15 3 21 3 21 9"/><line x1="10" y1="14" x2="21" y2="3"/></svg>`;
-
-// ─────────────────────────────────────────────
-// Render
-// ─────────────────────────────────────────────
+// ═══════════════════════════════════════════
+// RENDER TABLE
+// ═══════════════════════════════════════════
 function render() {
   const isQ41 = metric === 'q41';
   const unit  = '%';
-  const shortLabel = metric === 'avg' ? 'Avg Gap' : metric === 'med' ? 'Median Gap' : 'Q4–Q1 Diff';
+  const shortLabel = metric === 'avg' ? 'Avg Gap' : metric === 'med' ? 'Median' : 'Q4–Q1';
 
   const ranked24 = rankData(RAW, getGap24);
   const ranked23 = rankData(RAW, getGap23);
@@ -505,139 +787,354 @@ function render() {
     return {...d, prevRank, change};
   });
 
-  if (sortKey === 'rank-asc')      rows.sort((a,b) => a.rank - b.rank);
-  if (sortKey === 'rank-desc')     rows.sort((a,b) => b.rank - a.rank);
-  if (sortKey === 'name-asc')      rows.sort((a,b) => a.name.localeCompare(b.name));
-  if (sortKey === 'change-best')   rows.sort((a,b) => (b.change ?? -999) - (a.change ?? -999));
-  if (sortKey === 'change-worst')  rows.sort((a,b) => (a.change ?? 999) - (b.change ?? 999));
-  if (sortKey === 'actions-desc')  rows.sort((a,b) => b.actions24 - a.actions24);
+  if (sortKey === 'rank-asc')     rows.sort((a,b) => a.rank - b.rank);
+  if (sortKey === 'rank-desc')    rows.sort((a,b) => b.rank - a.rank);
+  if (sortKey === 'name-asc')     rows.sort((a,b) => a.name.localeCompare(b.name));
+  if (sortKey === 'name-desc')    rows.sort((a,b) => b.name.localeCompare(a.name));
+  if (sortKey === 'change-best')  rows.sort((a,b) => (b.change??-999) - (a.change??-999));
+  if (sortKey === 'change-worst') rows.sort((a,b) => (a.change??999) - (b.change??999));
+  if (sortKey === 'actions-desc') rows.sort((a,b) => actCount(b) - actCount(a));
+  if (sortKey === 'actions-asc')  rows.sort((a,b) => actCount(a) - actCount(b));
 
-  // ── Stats ──
+  // Stats
   const uw24 = simpleAvg(RAW, getGap24);
   const uw23 = simpleAvg(RAW, getGap23);
   const wt24 = weightedAvg(RAW, getGap24, 'staff24');
   const wt23 = weightedAvg(RAW, getGap23, 'staff23');
-  const improved = rows.filter(r => (getGap24(r) < getGap23(r))).length;
+  const improved = RAW.filter(d => getGap24(d) < getGap23(d)).length;
 
   function deltaHTML(delta) {
     if (Math.abs(delta) < 0.005) return `<span style="color:var(--muted)">no change</span>`;
     const better = delta < 0;
-    const cls    = better ? 'chg-good' : 'chg-bad';
-    return `<span class="${cls}">${better ? '▼' : '▲'} ${Math.abs(delta).toFixed(2)}${unit}</span>`;
+    return `<span class="${better?'chg-good':'chg-bad'}">${better?'▼':'▲'} ${Math.abs(delta).toFixed(2)}${unit}</span>`;
   }
 
   document.getElementById('stats-bar').innerHTML = `
     <div class="stat-card">
       <div class="stat-label">Sector Average (2024–25)</div>
       <div class="stat-value">${fmt(uw24)}<span class="unit">${unit}</span></div>
-      <div class="stat-sub">vs ${fmt(uw23)}${unit} in 2023–24 &nbsp;·&nbsp; ${deltaHTML(uw24 - uw23)}</div>
+      <div class="stat-sub">vs ${fmt(uw23)}${unit} in 2023–24 · ${deltaHTML(uw24-uw23)}</div>
     </div>
     <div class="stat-card">
-      <div class="stat-label">Weighted Sector Average (2024–25)</div>
+      <div class="stat-label">Weighted Average (2024–25)</div>
       <div class="stat-value">${fmt(wt24)}<span class="unit">${unit}</span></div>
-      <div class="stat-sub">vs ${fmt(wt23)}${unit} in 2023–24 &nbsp;·&nbsp; ${deltaHTML(wt24 - wt23)}<br><span style="font-style:italic">Weighted by number of staff</span></div>
+      <div class="stat-sub">vs ${fmt(wt23)}${unit} in 2023–24 · ${deltaHTML(wt24-wt23)}<br><span style="font-style:italic">weighted by staff count</span></div>
     </div>
-    <div class="stat-card">
-      <div class="stat-label">Universities Improved</div>
+    <div class="stat-card" style="grid-column:1/-1">
+      <div class="stat-label">Universities improved</div>
       <div class="stat-value" style="color:var(--green)">${improved}<span class="unit"> / 39</span></div>
       <div class="stat-sub">reduced their gap vs 2023–24</div>
-    </div>
-  `;
+    </div>`;
+
+  // fix 3rd card spanning on desktop
+  const cards = document.querySelectorAll('#stats-bar .stat-card');
+  if (cards[2]) cards[2].style.gridColumn = '';
 
   document.getElementById('th-gap-label').textContent  = shortLabel;
   document.getElementById('th-prev-label').textContent = shortLabel;
 
-  // ── Rows ──
-  document.getElementById('table-body').innerHTML = rows.map(row => {
+  document.getElementById('table-body').innerHTML = rows.map((row, idx) => {
     const gap24 = getGap24(row);
     const gap23 = getGap23(row);
+    const n = actCount(row);
+
     let changeTxt = '—', changeCls = 'change-same';
     if (row.change !== null && row.change !== 0) {
-      changeTxt = row.change > 0 ? `▲&nbsp;${row.change}` : `▼&nbsp;${Math.abs(row.change)}`;
+      changeTxt = row.change > 0 ? `▲&thinsp;${row.change}` : `▼&thinsp;${Math.abs(row.change)}`;
       changeCls = row.change > 0 ? 'change-up' : 'change-down';
     }
 
-    const auditCell = row.audit24 === 'Y'
-      ? `<span class="audit-yes" title="GPG analysis published">✓</span>`
-      : `<span class="audit-no"  title="No GPG analysis">—</span>`;
+    const auditBadge = row.audit24==='Y'
+      ? `<span class="badge badge-yes" title="GPG analysis published">✓</span>`
+      : `<span class="badge badge-no"  title="No GPG analysis">—</span>`;
+
+    const sageBadge = row.sage
+      ? `<span class="badge badge-sage" title="SAGE accredited">SAGE</span>`
+      : `<span class="badge badge-sage-no" title="Not SAGE accredited">—</span>`;
+
+    const pipHtml = `<span class="pips">${row.acts.map((_,i)=>`<span class="pip${i<n?' on':''}"></span>`).join('')}</span>`;
 
     const srcCell = row.src
-      ? `<a class="source-link" href="https://public.tableau.com/shared/${row.src}" target="_blank" rel="noopener" title="View source data on WGEA Tableau">${extIcon}</a>`
+      ? `<a class="source-link" href="https://public.tableau.com/shared/${row.src}" target="_blank" rel="noopener" title="View source data">${EXT_ICON}</a>`
       : '';
+
+    const nameStar = row.star ? `<sup>*</sup>` : '';
 
     return `<tr>
       <td class="td-rank ${row.rank<=3?'top3':''}">${row.rank}</td>
-      <td class="td-name">${row.name}</td>
+      <td class="td-name">
+        <button class="uni-btn" onclick="openModal('${row.name.replace(/'/g,"\\'")}')">
+          ${row.name}${nameStar}
+        </button>
+        <div class="badges-row">
+          ${auditBadge}
+          ${sageBadge}
+          ${row.womenVC ? `<span class="badge" style="background:var(--teal-bg);color:var(--teal);font-size:.6rem;border-radius:3px;width:auto;padding:0 .3rem;height:18px" title="Woman Vice-Chancellor">VC♀</span>` : ''}
+        </div>
+      </td>
       <td class="td-gap"><span class="${gapClass(gap24)}">${fmt(gap24)}</span><span class="unit">${unit}</span></td>
-      <td class="td-prev-rank">${row.prevRank ?? '—'}</td>
-      <td class="td-prev-gap">${fmt(gap23)}${unit}</td>
-      <td class="td-change ${changeCls}">${changeTxt}</td>
-      <td class="td-audit">${auditCell}</td>
-      <td class="td-actions">${pips(row.actions24)}</td>
+      <td class="td-prev-rank col-desktop">${row.prevRank??'—'}</td>
+      <td class="td-prev-gap col-desktop">${fmt(gap23)}${unit}</td>
+      <td class="td-change col-tablet ${changeCls}">${changeTxt}</td>
+      <td class="td-audit col-tablet">${auditBadge}</td>
+      <td class="td-actions col-desktop">${pipHtml}</td>
       <td class="td-source">${srcCell}</td>
     </tr>`;
   }).join('');
 
-  // ── Legend ──
-  document.getElementById('legend-bar').innerHTML = `
-    ${isQ41 ? `
-    <div class="legend-item"><span class="dot" style="background:var(--green)"></span>Diff ≤ 10%</div>
+  // Legend
+  document.getElementById('legend-bar').innerHTML = isQ41 ? `
+    <div class="legend-item"><span class="dot" style="background:var(--green)"></span>≤ 10%</div>
     <div class="legend-item"><span class="dot" style="background:var(--amber)"></span>10–20%</div>
     <div class="legend-item"><span class="dot" style="background:var(--red)"></span>&gt; 20%</div>` : `
-    <div class="legend-item"><span class="dot" style="background:var(--green)"></span>Gap ≤ 7%</div>
+    <div class="legend-item"><span class="dot" style="background:var(--green)"></span>≤ 7%</div>
     <div class="legend-item"><span class="dot" style="background:var(--amber)"></span>7–12%</div>
-    <div class="legend-item"><span class="dot" style="background:var(--red)"></span>&gt; 12%</div>`}
-    <div class="legend-item" style="margin-left:1rem"><span style="color:var(--green)">▲</span>&nbsp;Rank improved</div>
+    <div class="legend-item"><span class="dot" style="background:var(--red)"></span>&gt; 12%</div>`;
+  document.getElementById('legend-bar').innerHTML += `
+    <div class="legend-item" style="margin-left:.5rem"><span style="color:var(--green)">▲</span>&nbsp;Rank improved</div>
     <div class="legend-item"><span style="color:var(--red)">▼</span>&nbsp;Rank declined</div>
-    <div class="legend-item" style="margin-left:1rem">
-      <span class="audit-yes" style="width:16px;height:16px;font-size:.75rem">✓</span>&nbsp;GPG analysis published
-    </div>
-    <div class="legend-item">
-      <span style="display:inline-flex;gap:1px">${[...Array(10)].map((_,i)=>`<span style="display:inline-block;width:5px;height:10px;border-radius:1px;background:${i<5?'var(--accent)':'var(--border)'}"></span>`).join('')}</span>
-      &nbsp;Actions taken (out of 10)
-    </div>`;
+    <div class="legend-item"><span class="badge badge-yes" style="width:16px;height:16px;font-size:.65rem">✓</span>&nbsp;GPG audit</div>`;
 
-  // ── Footnote ──
-  document.getElementById('footnote-text').innerHTML = isQ41
-    ? `<strong>Q4–Q1 women's representation difference</strong> is the percentage of women in the top pay quartile (Q4) minus the percentage in the bottom pay quartile (Q1). A higher value means women are more concentrated in lower-paid roles. <strong>GPG Analysis</strong>: whether the university published a gender pay gap analysis in 2024–25. <strong>Actions</strong>: number of GPG actions taken out of 10 possible in 2024–25. Click the source icon to view the university's original WGEA data.`
-    : `<strong>How to read this table:</strong> The gender pay gap is the difference between ${metric==='avg'?'average':'median'} total remuneration of men and women, expressed as a percentage of men's remuneration. A positive gap means women earn less on average. Universities are ranked from lowest gap (most equitable) to highest. <strong>GPG Audit</strong>: whether the university published a gender pay gap analysis in 2024–25. <strong>Actions</strong>: number of GPG actions taken out of 10 possible. Click the source icon to view the university's original WGEA data. <em>Note on median gaps:</em> A median of 0% does not necessarily mean pay parity.`;
-  document.querySelectorAll('thead th').forEach(th => th.classList.remove('sorted'));
-  if (['rank-asc','rank-desc'].includes(sortKey)) document.getElementById('th-gap').classList.add('sorted');
+  // Footnote
+  document.getElementById('footnote-text').innerHTML = (isQ41
+    ? `<strong>Q4–Q1 women's representation difference</strong> is the % of women in the top pay quartile (Q4) minus the % in the bottom quartile (Q1). A higher value means women are more concentrated in lower-paid roles.`
+    : `<strong>How to read this table:</strong> The gender pay gap is the difference between ${metric==='avg'?'average':'median'} total remuneration of men and women, expressed as a percentage of men's pay. A positive gap means women earn less on average. <em>Median note:</em> A median gap of 0% does not necessarily mean full pay parity.`)
+    + ` <strong>GPG Analysis:</strong> whether the university published a gender pay gap analysis in 2024–25. <strong>Actions:</strong> number of specific GPG actions taken out of 11 reported. Click any university name for full details.`
+    + `<br><br><sup>*</sup>The University of Adelaide and the University of South Australia merged to become Adelaide University in 2026.`;
+
+  // Update header highlight and arrows
+  const SORT_MAP = {
+    'rank':    { asc: 'rank-asc',     desc: 'rank-desc',     thId: ['th-rank','th-gap'], siIds: ['si-rank','si-gap'] },
+    'name':    { asc: 'name-asc',     desc: 'name-desc',     thId: ['th-name'],           siIds: ['si-name'] },
+    'change':  { asc: 'change-worst', desc: 'change-best',   thId: ['th-change'],         siIds: ['si-change'] },
+    'actions': { asc: 'actions-asc',  desc: 'actions-desc',  thId: ['th-actions'],        siIds: ['si-actions'] },
+  };
+  document.querySelectorAll('thead th').forEach(th => {
+    th.classList.remove('sorted');
+    // clear all si spans that we manage
+    ['si-rank','si-gap','si-name','si-change','si-actions'].forEach(id => {
+      const el = document.getElementById(id);
+      if (el) el.textContent = '';
+    });
+  });
+  for (const [col, cfg] of Object.entries(SORT_MAP)) {
+    if (sortKey === cfg.asc || sortKey === cfg.desc) {
+      cfg.thId.forEach(id => { const el = document.getElementById(id); if (el) el.classList.add('sorted'); });
+      const arrow = sortKey === cfg.asc ? '▲' : '▼';
+      cfg.siIds.forEach(id => { const el = document.getElementById(id); if (el) el.textContent = arrow; });
+    }
+  }
 }
 
-// ─────────────────────────────────────────────
-// Footer
-// ─────────────────────────────────────────────
+// ═══════════════════════════════════════════
+// MODAL
+// ═══════════════════════════════════════════
+function openModal(name) {
+  const d = RAW.find(r => r.name === name);
+  if (!d) return;
+
+  const isQ41 = metric === 'q41';
+  const unit  = '%';
+  const gap24 = getGap24(d);
+  const gap23 = getGap23(d);
+  const gapDelta = gap24 - gap23;
+  const n = actCount(d);
+  const nameStar = d.star ? '<sup style="font-size:.7em;color:var(--muted)">*</sup>' : '';
+
+  // Header badges
+  let badges = '';
+  if (d.womenVC) badges += `<span class="modal-badge-pill pill-vc">♀ Woman Vice-Chancellor</span>`;
+  if (d.sage)    badges += `<span class="modal-badge-pill pill-sage">SAGE Participating Institution</span>`;
+  if (d.audit24==='Y') badges += `<span class="modal-badge-pill pill-audit">✓ GPG Analysis Published</span>`;
+  else                 badges += `<span class="modal-badge-pill pill-noaudit">No GPG Analysis</span>`;
+
+  document.getElementById('modal-badges').innerHTML = badges;
+  document.getElementById('modal-title').innerHTML  = d.name + nameStar;
+
+  // Ranked positions
+  const ranked24 = rankData(RAW, getGap24);
+  const ranked23 = rankData(RAW, getGap23);
+  const rank24 = ranked24.find(r=>r.name===d.name).rank;
+  const rank23 = ranked23.find(r=>r.name===d.name).rank;
+  const rankChange = rank23 - rank24;
+
+  // Gap change colour
+  const deltaClass = gapDelta < 0 ? 'gap-low' : gapDelta > 0 ? 'gap-high' : '';
+  const deltaSign  = gapDelta < 0 ? '▼' : gapDelta > 0 ? '▲' : '=';
+
+  // Quartile bars
+  function qBar(label, val, pctWomen) {
+    const w = Math.min(100, val);
+    const wAll = Math.min(100, pctWomen);
+    return `<div class="q-bar-wrap">
+      <span class="q-label">${label}</span>
+      <div class="q-bar-bg"><div class="q-bar-fill" style="width:${w}%"></div></div>
+      <span class="q-pct">${val}%</span>
+    </div>`;
+  }
+
+  // Action list
+  const actionListHtml = ACTION_LABELS.map((a, i) => {
+    const done = d.acts[i] === 1;
+    return `<div class="action-item">
+      <span class="action-icon ${done?'yes':'no'}">${done?'✓':'✕'}</span>
+      <span class="action-text ${done?'done':'not'}">${a.label}</span>
+    </div>`;
+  }).join('');
+
+  document.getElementById('modal-body').innerHTML = `
+    <!-- Rankings -->
+    <div>
+      <div class="modal-section-label">2024–25 Ranking</div>
+      <div class="gap-grid">
+        <div class="gap-cell">
+          <div class="gap-cell-label">Rank</div>
+          <div class="gap-cell-value ${rank24<=3?'gap-low':''}">#${rank24}</div>
+        </div>
+        <div class="gap-cell">
+          <div class="gap-cell-label">Prev Rank (23–24)</div>
+          <div class="gap-cell-value">#${rank23}</div>
+        </div>
+        <div class="gap-cell">
+          <div class="gap-cell-label">Rank Change</div>
+          <div class="gap-cell-value ${rankChange>0?'gap-low':rankChange<0?'gap-high':''}">${rankChange>0?'▲'+rankChange:rankChange<0?'▼'+Math.abs(rankChange):'—'}</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Pay gap -->
+    <div>
+      <div class="modal-section-label">Pay Gap – ${metric==='avg'?'Average':metric==='med'?'Median':'Q4–Q1 Difference'}</div>
+      <div class="gap-grid">
+        <div class="gap-cell">
+          <div class="gap-cell-label">2024–25</div>
+          <div class="gap-cell-value ${gapClass(gap24)}">${fmt(gap24)}${unit}</div>
+        </div>
+        <div class="gap-cell">
+          <div class="gap-cell-label">2023–24</div>
+          <div class="gap-cell-value">${fmt(gap23)}${unit}</div>
+        </div>
+        <div class="gap-cell">
+          <div class="gap-cell-label">Change</div>
+          <div class="gap-cell-value ${deltaClass}">${deltaSign} ${Math.abs(gapDelta).toFixed(2)}${unit}</div>
+        </div>
+      </div>
+    </div>
+
+    ${!isQ41 ? `
+    <!-- All three metrics -->
+    <div>
+      <div class="modal-section-label">All Pay Gap Metrics (2024–25)</div>
+      <div class="gap-grid">
+        <div class="gap-cell">
+          <div class="gap-cell-label">Average Gap</div>
+          <div class="gap-cell-value ${gapClass(d.avg24)}">${fmt(d.avg24)}%</div>
+        </div>
+        <div class="gap-cell">
+          <div class="gap-cell-label">Median Gap</div>
+          <div class="gap-cell-value ${gapClass(d.med24)}">${fmt(d.med24)}%</div>
+        </div>
+        <div class="gap-cell">
+          <div class="gap-cell-label">Q4–Q1 Diff</div>
+          <div class="gap-cell-value">${fmt(d.q4_24-d.q1_24)}%</div>
+        </div>
+      </div>
+    </div>` : ''}
+
+    <!-- Workforce composition -->
+    <div>
+      <div class="modal-section-label">Workforce Composition (2024–25) — % Women</div>
+      <div class="quartile-row">
+        ${qBar('Top quartile (Q1)', d.q1_24, d.pctW24)}
+        ${qBar('Overall workforce',    d.pctW24, d.pctW24)}
+        ${qBar('Bottom quartile (Q4)',    d.q4_24, d.pctW24)}
+      </div>
+    </div>
+
+    <!-- GPG actions -->
+    <div>
+      <div class="modal-section-label">GPG Actions Taken (2024–25) — ${n} of ${ACTION_LABELS.length}</div>
+      <div class="action-list">${actionListHtml}</div>
+    </div>
+
+    <!-- Source -->
+    ${d.src ? `<div>
+      <div class="modal-section-label">Primary Source</div>
+      <a class="modal-source-link" href="https://public.tableau.com/shared/${d.src}" target="_blank" rel="noopener">
+        ${EXT_ICON} View on WGEA Tableau
+      </a>
+    </div>` : ''}
+  `;
+
+  document.getElementById('modal-backdrop').classList.add('open');
+  document.body.style.overflow = 'hidden';
+}
+
+function closeModal() {
+  document.getElementById('modal-backdrop').classList.remove('open');
+  document.body.style.overflow = '';
+}
+
+function handleBackdropClick(e) {
+  if (e.target === document.getElementById('modal-backdrop')) closeModal();
+}
+
+document.addEventListener('keydown', e => { if (e.key === 'Escape') closeModal(); });
+
+// ═══════════════════════════════════════════
+// FOOTER
+// ═══════════════════════════════════════════
 (function buildFooter() {
   const totalStaff24 = RAW.reduce((s,d) => s + d.staff24, 0);
   const totalStaff23 = RAW.reduce((s,d) => s + d.staff23, 0);
   const weightedPctW = RAW.reduce((s,d) => s + d.pctW24 * d.staff24, 0) / totalStaff24;
   document.getElementById('footer-inner').innerHTML = `
     <div class="footer-stat">
-      <span class="footer-stat-label">Total staff covered (2024–25)</span>
+      <span class="footer-stat-label">Staff covered (2024–25)</span>
       <span class="footer-stat-value">${totalStaff24.toLocaleString()}</span>
     </div>
     <div class="footer-stat">
-      <span class="footer-stat-label">Total staff covered (2023–24)</span>
+      <span class="footer-stat-label">Staff covered (2023–24)</span>
       <span class="footer-stat-value">${totalStaff23.toLocaleString()}</span>
     </div>
     <div class="footer-stat">
-      <span class="footer-stat-label">Women as % of workforce (2024–25, staff-weighted)</span>
+      <span class="footer-stat-label">Women in workforce (2024–25)</span>
       <span class="footer-stat-value">${weightedPctW.toFixed(1)}%</span>
     </div>
     <div class="footer-stat">
       <span class="footer-stat-label">Universities reporting</span>
       <span class="footer-stat-value">39</span>
     </div>
-    <p class="footer-note">Data from the WGEA Employer Census. The gender pay gap measures the difference in remuneration between men and women as a percentage of men's pay. Positive values indicate women earn less on average.</p>
   `;
 })();
 
-// ─────────────────────────────────────────────
-// Handlers
-// ─────────────────────────────────────────────
+// ═══════════════════════════════════════════
+// EVENT HANDLERS
+// ═══════════════════════════════════════════
+// Column toggle map: tracks which direction each column is currently sorted
+const COL_PAIRS = {
+  rank:    ['rank-asc',     'rank-desc'],
+  name:    ['name-asc',     'name-desc'],
+  change:  ['change-best',  'change-worst'],
+  actions: ['actions-desc', 'actions-asc'],
+};
+
+// Extend sort logic for new directions
+const EXTRA_SORTS = {
+  'name-desc':    (a,b) => b.name.localeCompare(a.name),
+  'actions-asc':  (a,b) => actCount(a) - actCount(b),
+};
+
+function headerSort(col) {
+  const [first, second] = COL_PAIRS[col];
+  // If already on one of this column's keys, toggle; otherwise go to first
+  sortKey = (sortKey === first) ? second : first;
+  document.getElementById('sort-select').value = sortKey in {'rank-asc':1,'rank-desc':1,'name-asc':1,'change-best':1,'change-worst':1,'actions-desc':1} ? sortKey : '';
+  render();
+}
+
 function setMetric(m) { metric = m; render(); }
-function setSort(s) { sortKey = s; document.getElementById('sort-select').value = s; render(); }
+function setSort(s)   { sortKey = s; render(); }
 
 render();
 </script>
