@@ -345,11 +345,12 @@ td { padding: .7rem .75rem; vertical-align: middle; }
   font-size: .78rem;
   line-height: 1;
   flex-shrink: 0;
+  display:none;
 }
-.badge-yes  { background: var(--green-bg);  color: var(--green); font-weight: 700; }
-.badge-no   { background: var(--surface2);  color: var(--border-strong); }
-.badge-sage { background: var(--purple-bg); color: var(--purple); font-size: .55rem; font-weight: 700; font-family: 'DM Mono', monospace; letter-spacing: 0; border-radius: var(--radius-sm); width: auto; padding: 0 .35rem; height: 18px; }
-.badge-sage-no { background: var(--surface2); color: var(--border-strong); font-size: .55rem; font-family: 'DM Mono', monospace; border-radius: var(--radius-sm); width: auto; padding: 0 .35rem; height: 18px; }
+.badge-yes  { background: var(--green-bg);  color: var(--green); font-weight: 700; display:inline-flex;}
+.badge-no   { background: var(--surface2);  color: var(--border-strong); display:inline-flex;}
+.badge-sage { background: var(--purple-bg); color: var(--purple); font-size: .55rem; font-weight: 700; font-family: 'DM Mono', monospace; letter-spacing: 0; border-radius: var(--radius-sm); width: auto; padding: 0 .35rem; height: 18px; display:none;}
+.badge-sage-no { background: var(--surface2); color: var(--border-strong); font-size: .55rem; font-family: 'DM Mono', monospace; border-radius: var(--radius-sm); width: auto; padding: 0 .35rem; height: 18px; display:none;}
 
 /* ── Actions pips ── */
 .td-actions { text-align: center; white-space: nowrap; }
